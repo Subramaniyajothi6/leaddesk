@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Allocate leads to teams</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F1F1E;background:#F4F4F2}
+a{color:#1F1F1E}a:hover{color:#000}
+.nav a{display:block;padding:10px 12px;border-radius:6px;text-decoration:none;font-size:14px;color:#1F1F1E}
+.nav a.on{background:#E6E6E2;font-weight:600}
+.card{background:#fff;border:1px solid #D4D4D0;border-radius:10px;padding:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:6px;border:1px solid #9A9A95;background:#fff;color:#1F1F1E;font:inherit;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn.primary{background:#1F1F1E;border-color:#1F1F1E;color:#fff}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;font-weight:600;color:#5E5E5A;padding:8px;border-bottom:1px solid #D4D4D0}
+td{padding:10px 8px;border-bottom:1px solid #ECECE8}
+select,input{font:inherit}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid #D4D4D0;border-radius:8px;padding:12px;font-size:14px}
+.proto{flex:1 1 100%;box-sizing:border-box;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:8px 16px;background:#1F1F1E;color:#F4F4F2;font-size:13px}
+.proto a{color:#F4F4F2;text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid #5E5E5A}
+.proto a.on{background:#F4F4F2;color:#1F1F1E;border-color:#F4F4F2;font-weight:600}
+.proto a:hover{border-color:#F4F4F2}
+.soon{display:block;padding:10px 12px;font-size:14px;color:#6B6B66}
+.soon small{font-size:11px;margin-left:6px;padding:1px 6px;border:1px solid #BDBDB8;border-radius:999px}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif">
+  <div class="proto" role="navigation" aria-label="Prototype">
+    <b style="margin-right: 4px">Wireframe prototype</b><span style="color: #BDBDB8">View as</span>
+    <a href="AdminDashboard.dc.html" class="on" aria-current="true">Admin</a>
+    <a href="TLDashboard.dc.html">Team Lead</a>
+    <a href="BDEToday.dc.html">BDE</a>
+    <span style="flex: 1 1 auto"></span>
+    <a href="Main.dc.html">Screen map</a>
+  </div>
+  <nav class="nav" aria-label="Admin menu" style="flex: 1 1 200px; max-width: 240px; box-sizing: border-box; background: #fff; border-right: 1px solid #D4D4D0; padding: 20px 12px; display: flex; flex-direction: column; gap: 2px">
+    <div style="font-weight: 700; font-size: 16px; padding: 4px 12px 16px">[COMPANY LOGO]</div>
+    <a href="AdminDashboard.dc.html">Dashboard</a>
+    <span class="soon" title="Screen not drawn yet">Leads<small>soon</small></span>
+    <a href="UploadLeads.dc.html">Upload</a>
+    <a class="on" href="AllocateTeams.dc.html" aria-current="page">Allocation</a>
+    <a href="TeamsPeople.dc.html">Teams &amp; people</a>
+    <span class="soon" title="Screen not drawn yet">Attendance<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Follow-ups<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Reports<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Leaderboard<small>soon</small></span>
+    <a href="FinanceDashboard.dc.html">Finance</a>
+    <a href="Settings.dc.html">Settings</a>
+    <span class="soon" title="Screen not drawn yet">Audit log<small>soon</small></span>
+  </nav>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 32px; display: flex; flex-direction: column; gap: 20px">
+    <header style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between">
+      <div>
+        <h1 style="margin: 0; font-size: 24px">Allocate leads to teams</h1>
+        <p style="margin: 4px 0 0; font-size: 14px; color: #5E5E5A">Company pool: <b>1,180</b> leads not given to any team</p>
+      </div>
+      <a href="#" style="font-size: 14px">Past allocations</a>
+    </header>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+      <form style="flex: 1 1 380px; display: flex; flex-direction: column; gap: 16px">
+        <fieldset class="card" style="margin: 0; display: flex; flex-direction: column; gap: 12px">
+          <legend style="font-weight: 700; font-size: 15px; padding: 0 4px">1. Which leads</legend>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+            <label style="font-size: 13px">Upload batch<br><select style="margin-top: 4px; width: 100%; min-height: 40px; border: 1px solid #9A9A95; border-radius: 6px"><option>nov-campaign-leads (1,180)</option><option>All batches</option></select></label>
+            <label style="font-size: 13px">Source<br><select style="margin-top: 4px; width: 100%; min-height: 40px; border: 1px solid #9A9A95; border-radius: 6px"><option>Any</option></select></label>
+            <label style="font-size: 13px">Score at least<br><input type="number" value="0" style="margin-top: 4px; width: 100%; box-sizing: border-box; min-height: 40px; border: 1px solid #9A9A95; border-radius: 6px; padding: 0 8px"></label>
+            <label style="font-size: 13px">How many to give<br><input type="number" value="300" style="margin-top: 4px; width: 100%; box-sizing: border-box; min-height: 40px; border: 1px solid #9A9A95; border-radius: 6px; padding: 0 8px"></label>
+          </div>
+          <p style="margin: 0; font-size: 13px; color: #5E5E5A">Highest score first, then oldest first.</p>
+        </fieldset>
+
+        <fieldset class="card" style="margin: 0; display: flex; flex-direction: column; gap: 10px">
+          <legend style="font-weight: 700; font-size: 15px; padding: 0 4px">2. How to split</legend>
+          <label class="opt" style="border-color: #1F1F1E"><input type="radio" name="m" checked> <span><b>Equal</b><br><span style="color: #5E5E5A; font-size: 13px">Same number each. Any extra rotates between teams.</span></span></label>
+          <label class="opt"><input type="radio" name="m"> <span><b>By free capacity</b><br><span style="color: #5E5E5A; font-size: 13px">More to teams with more room under BDE caps.</span></span></label>
+          <label class="opt"><input type="radio" name="m"> <span><b>Manual</b><br><span style="color: #5E5E5A; font-size: 13px">Type a number for each team.</span></span></label>
+        </fieldset>
+
+        <fieldset class="card" style="margin: 0; display: flex; flex-direction: column; gap: 10px">
+          <legend style="font-weight: 700; font-size: 15px; padding: 0 4px">3. Teams</legend>
+          <label style="font-size: 14px; display: flex; gap: 10px; align-items: center; min-height: 40px"><input type="checkbox" checked> Team A <span style="color: #5E5E5A">· 10 BDEs · free capacity 210</span></label>
+          <label style="font-size: 14px; display: flex; gap: 10px; align-items: center; min-height: 40px"><input type="checkbox" checked> Team B <span style="color: #5E5E5A">· 9 BDEs · free capacity 390</span></label>
+          <label style="font-size: 14px; display: flex; gap: 10px; align-items: center; min-height: 40px"><input type="checkbox" checked> Team C <span style="color: #5E5E5A">· 9 BDEs · free capacity 160</span></label>
+        </fieldset>
+      </form>
+
+      <section aria-labelledby="prev" class="card" style="flex: 1 1 420px; display: flex; flex-direction: column; gap: 14px; border-color: #1F1F1E">
+        <h2 id="prev" style="margin: 0; font-size: 16px">Preview</h2>
+        <p style="margin: 0; font-size: 14px">300 leads · Equal · 3 teams</p>
+        <div style="overflow-x: auto">
+          <table>
+            <thead><tr><th scope="col">Team</th><th scope="col">In team pool now</th><th scope="col">Will receive</th><th scope="col">Team pool after</th></tr></thead>
+            <tbody>
+              <tr><td>Team A</td><td>40</td><td><b>100</b></td><td>140</td></tr>
+              <tr><td>Team B</td><td>0</td><td><b>100</b></td><td>100</td></tr>
+              <tr><td>Team C</td><td>12</td><td><b>100</b></td><td>112</td></tr>
+              <tr><td><b>Total</b></td><td>52</td><td><b>300</b></td><td>352</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div role="note" style="border: 1px dashed #9A9A95; border-radius: 8px; padding: 12px; font-size: 13px; line-height: 1.5">
+          Leads above a team's free capacity are not lost: they wait in that team's pool until a BDE has room.
+        </div>
+        <label style="font-size: 14px; display: flex; gap: 10px; align-items: center"><input type="checkbox"> Also give to BDEs now, using each team's own method</label>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end">
+          <a class="btn" href="AdminDashboard.dc.html">Cancel</a>
+          <a class="btn primary" href="AdminDashboard.dc.html">Allocate 300 leads</a>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1040}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

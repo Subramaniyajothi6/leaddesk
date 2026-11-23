@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BDE today</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F1F1E;background:#F4F4F2}
+a{color:#1F1F1E}a:hover{color:#000}
+.nav a{display:block;padding:10px 12px;border-radius:6px;text-decoration:none;font-size:14px;color:#1F1F1E}
+.nav a.on{background:#E6E6E2;font-weight:600}
+.card{background:#fff;border:1px solid #D4D4D0;border-radius:10px;padding:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:6px;border:1px solid #9A9A95;background:#fff;color:#1F1F1E;font:inherit;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn.primary{background:#1F1F1E;border-color:#1F1F1E;color:#fff}
+.btn.sm{min-height:36px;padding:0 12px;font-size:13px}
+.item{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #ECECE8}
+.tag{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid #9A9A95;font-size:12px}
+.bar{height:10px;border-radius:5px;background:#ECECE8;overflow:hidden}
+.proto{flex:1 1 100%;box-sizing:border-box;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:8px 16px;background:#1F1F1E;color:#F4F4F2;font-size:13px}
+.proto a{color:#F4F4F2;text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid #5E5E5A}
+.proto a.on{background:#F4F4F2;color:#1F1F1E;border-color:#F4F4F2;font-weight:600}
+.proto a:hover{border-color:#F4F4F2}
+.soon{display:block;padding:10px 12px;font-size:14px;color:#6B6B66}
+.soon small{font-size:11px;margin-left:6px;padding:1px 6px;border:1px solid #BDBDB8;border-radius:999px}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif">
+  <div class="proto" role="navigation" aria-label="Prototype">
+    <b style="margin-right: 4px">Wireframe prototype</b><span style="color: #BDBDB8">View as</span>
+    <a href="AdminDashboard.dc.html">Admin</a>
+    <a href="TLDashboard.dc.html">Team Lead</a>
+    <a href="BDEToday.dc.html" class="on" aria-current="true">BDE</a>
+    <span style="flex: 1 1 auto"></span>
+    <a href="Main.dc.html">Screen map</a>
+  </div>
+  <nav class="nav" aria-label="BDE menu" style="flex: 1 1 200px; max-width: 240px; box-sizing: border-box; background: #fff; border-right: 1px solid #D4D4D0; padding: 20px 12px; display: flex; flex-direction: column; gap: 2px">
+    <div style="font-weight: 700; font-size: 16px; padding: 4px 12px 16px">[COMPANY LOGO]</div>
+    <a class="on" href="BDEToday.dc.html" aria-current="page">Today</a>
+    <span class="soon" title="Screen not drawn yet">My leads<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Follow-ups<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Attendance<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">My performance<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Leaderboard<small>soon</small></span>
+  </nav>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 32px; display: flex; flex-direction: column; gap: 20px">
+    <section aria-label="Attendance" class="card" style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; border-color: #1F1F1E">
+      <div>
+        <h1 style="margin: 0; font-size: 22px">Hi Priya</h1>
+        <p style="margin: 4px 0 0; font-size: 14px; color: #5E5E5A">Punched in <b>09:22</b> · working <b>2 h 10 m</b> · shift ends 18:30</p>
+      </div>
+      <button type="button" class="btn">Punch out</button>
+    </section>
+
+    <section aria-label="Today's progress" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+      <div class="card" style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: #5E5E5A">Calls today</span><b style="font-size: 24px">18 <span style="font-size: 14px; font-weight: 400; color: #5E5E5A">/ 40</span></b><div class="bar" aria-hidden="true"><div style="width: 45%; height: 100%; background: #5E5E5A"></div></div></div>
+      <div class="card" style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: #5E5E5A">Conversions today</span><b style="font-size: 24px">1 <span style="font-size: 14px; font-weight: 400; color: #5E5E5A">/ 2</span></b><div class="bar" aria-hidden="true"><div style="width: 50%; height: 100%; background: #5E5E5A"></div></div></div>
+      <div class="card" style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: #5E5E5A">This month</span><b style="font-size: 24px">11.2%</b><span style="font-size: 12px; color: #5E5E5A">14 conversions · rank #1 in team</span></div>
+    </section>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+      <section aria-labelledby="q" class="card" style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center">
+          <h2 id="q" style="margin: 0; font-size: 16px">Next to call</h2>
+          <a class="btn primary" href="BDELeadMobile.dc.html">Start calling</a>
+        </div>
+
+        <h3 style="margin: 12px 0 0; font-size: 13px; text-transform: uppercase; letter-spacing: .04em">Overdue follow-ups (2)</h3>
+        <div class="item"><span><b>Karthik Raj</b> · 98XXXXX210 · <span class="tag">Interested</span><br><span style="font-size: 13px; color: #5E5E5A">Was due yesterday 16:00 · "Call after salary date"</span></span><a class="btn sm primary" href="BDELeadMobile.dc.html">Call</a></div>
+        <div class="item"><span><b>Anitha S</b> · 90XXXXX118 · <span class="tag">Follow-up</span><br><span style="font-size: 13px; color: #5E5E5A">Was due today 10:00 · "Send fee details first"</span></span><a class="btn sm primary" href="BDELeadMobile.dc.html">Call</a></div>
+
+        <h3 style="margin: 12px 0 0; font-size: 13px; text-transform: uppercase; letter-spacing: .04em">Due today (4)</h3>
+        <div class="item"><span><b>Vignesh M</b> · 99XXXXX301 · <span class="tag">Interested</span><br><span style="font-size: 13px; color: #5E5E5A">14:30 · "Wants weekend batch"</span></span><a class="btn sm" href="BDELeadMobile.dc.html">Call</a></div>
+        <div class="item"><span><b>Deepa L</b> · 97XXXXX655 · <span class="tag">Follow-up</span><br><span style="font-size: 13px; color: #5E5E5A">16:00</span></span><a class="btn sm" href="BDELeadMobile.dc.html">Call</a></div>
+
+        <h3 style="margin: 12px 0 0; font-size: 13px; text-transform: uppercase; letter-spacing: .04em">Fresh leads (12) · best score first</h3>
+        <div class="item"><span><b>Harish B</b> · 96XXXXX870 · score 70<br><span style="font-size: 13px; color: #5E5E5A">Source: Referral</span></span><a class="btn sm" href="BDELeadMobile.dc.html">Call</a></div>
+        <a href="#" style="font-size: 13px; margin-top: 8px">Show all 18</a>
+      </section>
+
+      <aside style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 16px">
+        <section aria-labelledby="em" class="card" style="border-style: dashed; display: flex; flex-direction: column; gap: 8px">
+          <p style="margin: 0; font-size: 12px; color: #5E5E5A; text-transform: uppercase; letter-spacing: .04em">Empty state (when fresh = 0)</p>
+          <h2 id="em" style="margin: 0; font-size: 15px">No new leads right now</h2>
+          <p style="margin: 0; font-size: 14px; color: #5E5E5A">Rahul (Team Lead) has been told. Your follow-ups are still listed above.</p>
+        </section>
+        <section aria-labelledby="nt" class="card" style="display: flex; flex-direction: column; gap: 8px">
+          <h2 id="nt" style="margin: 0; font-size: 15px">Updates</h2>
+          <p style="margin: 0; font-size: 14px">20 new leads from Rahul · 10:15</p>
+          <p style="margin: 0; font-size: 14px">Reminder: Vignesh M at 14:30</p>
+        </section>
+      </aside>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

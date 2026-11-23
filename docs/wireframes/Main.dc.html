@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Screen map</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F1F1E;background:#F4F4F2}
+a{color:#1F1F1E}a:hover{color:#000}
+.start{display:flex;flex-direction:column;gap:4px;min-height:44px;padding:14px 16px;border-radius:10px;background:#1F1F1E;color:#fff;text-decoration:none;font-size:14px}
+.start:hover{color:#fff;background:#000}
+.step{display:block;background:#fff;border:1px solid #9A9A95;border-radius:8px;padding:12px 14px;text-decoration:none;color:#1F1F1E}
+.step:hover{border-color:#1F1F1E}
+</style>
+</helmet>
+<main style="box-sizing: border-box; max-width: 1280px; margin: 0 auto; padding: 48px 40px; display: flex; flex-direction: column; gap: 40px; font-family: Inter, system-ui, sans-serif; color: #1F1F1E">
+  <header style="display: flex; flex-direction: column; gap: 8px">
+    <h1 style="margin: 0; font-size: 32px; font-weight: 700">BDE Lead System: screen map</h1>
+    <p style="margin: 0; font-size: 16px; color: #5E5E5A">Each role signs in to its own home screen. Grey boxes are screens. ★ = drawn in this file and clickable. Press Play, then click through.</p>
+  </header>
+
+  <section aria-labelledby="start" style="display: flex; flex-direction: column; gap: 12px">
+    <h2 id="start" style="margin: 0; font-size: 18px">Start the prototype as</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+      <a class="start" href="AdminDashboard.dc.html"><b style="font-size: 16px">Admin →</b><span style="color: #D4D4D0">Upload, allocate, teams, settings</span></a>
+      <a class="start" href="TLDashboard.dc.html"><b style="font-size: 16px">Team Lead →</b><span style="color: #D4D4D0">Give leads to BDEs, at-risk list</span></a>
+      <a class="start" href="BDEToday.dc.html"><b style="font-size: 16px">BDE →</b><span style="color: #D4D4D0">Today, call, outcome, next lead</span></a>
+      <a class="start" href="FinanceDashboard.dc.html"><b style="font-size: 16px">Finance →</b><span style="color: #D4D4D0">Admin only: payments, calculators</span></a>
+    </div>
+    <p style="margin: 0; font-size: 13px; color: #5E5E5A">Every screen has a dark bar at the top to switch role or come back here. Menu items marked "soon" are screens not drawn yet.</p>
+  </section>
+
+  <section aria-labelledby="flow" style="display: flex; flex-direction: column; gap: 16px">
+    <h2 id="flow" style="margin: 0; font-size: 18px">Core flow: one lead, start to money</h2>
+    <ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 14px">
+      <li><a class="step" href="UploadLeads.dc.html"><b>Upload</b><br><span style="color: #5E5E5A">Admin</span></a></li>
+      <li aria-hidden="true" style="color: #5E5E5A">→</li>
+      <li><a class="step" href="AllocateTeams.dc.html"><b>Company pool</b><br><span style="color: #5E5E5A">validated, no duplicates</span></a></li>
+      <li aria-hidden="true" style="color: #5E5E5A">→</li>
+      <li><a class="step" href="DistributeBDEs.dc.html"><b>Team pool</b><br><span style="color: #5E5E5A">Admin allocates</span></a></li>
+      <li aria-hidden="true" style="color: #5E5E5A">→</li>
+      <li><a class="step" href="BDEToday.dc.html"><b>BDE list</b><br><span style="color: #5E5E5A">Team Lead / auto</span></a></li>
+      <li aria-hidden="true" style="color: #5E5E5A">→</li>
+      <li><a class="step" href="BDELeadMobile.dc.html"><b>Call + status</b><br><span style="color: #5E5E5A">BDE, follow-ups</span></a></li>
+      <li aria-hidden="true" style="color: #5E5E5A">→</li>
+      <li><a class="step" href="BDECallOutcome.dc.html"><b>Converted</b><br><span style="color: #5E5E5A">counts in %</span></a></li>
+      <li aria-hidden="true" style="color: #5E5E5A">→</li>
+      <li><a class="step" href="FinanceDashboard.dc.html"><b>Payment pending</b><br><span style="color: #5E5E5A">TL / Admin records</span></a></li>
+      <li aria-hidden="true" style="color: #5E5E5A">→</li>
+      <li><a class="step" href="FinanceDashboard.dc.html" style="background: #1F1F1E; color: #fff; border-color: #1F1F1E"><b>Confirmed</b><br><span style="color: #D4D4D0">in Finance totals</span></a></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="map" style="display: flex; flex-direction: column; gap: 16px">
+    <h2 id="map" style="margin: 0; font-size: 18px">Navigation per role</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
+
+      <div style="background: #fff; border: 1px solid #D4D4D0; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+        <h3 style="margin: 0; font-size: 16px">Admin</h3>
+        <ul style="margin: 0; padding: 0 0 0 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.4">
+          <li><b><a href="AdminDashboard.dc.html">Dashboard ★</a></b>: lead requests, team comparison</li>
+          <li>Leads: all leads, filters, timeline</li>
+          <li><b><a href="UploadLeads.dc.html">Upload ★</a></b>: map columns, duplicates, errors</li>
+          <li><b><a href="AllocateTeams.dc.html">Allocation ★</a></b>: pool → teams, run history</li>
+          <li><b><a href="TeamsPeople.dc.html">Teams &amp; people ★</a></b></li>
+          <li>Attendance: all, corrections to approve</li>
+          <li>Follow-ups: overdue by team</li>
+          <li>Reports + exports</li>
+          <li>Leaderboard</li>
+          <li><b><a href="FinanceDashboard.dc.html">Finance ★</a></b>: own page group</li>
+          <li><b><a href="Settings.dc.html">Settings ★</a></b></li>
+          <li>Audit log</li>
+        </ul>
+      </div>
+
+      <div style="background: #fff; border: 1px solid #D4D4D0; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+        <h3 style="margin: 0; font-size: 16px">Team Lead</h3>
+        <ul style="margin: 0; padding: 0 0 0 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.4">
+          <li><b><a href="TLDashboard.dc.html">Dashboard ★</a></b>: needs leads, at risk, BDE table</li>
+          <li><b><a href="DistributeBDEs.dc.html">Team pool → Distribute ★</a></b></li>
+          <li>Leads: team's leads, reassign</li>
+          <li>Follow-ups: pending, overdue per BDE</li>
+          <li>Attendance: team, corrections</li>
+          <li>Payments: record for converted leads</li>
+          <li>Reports (team) + exports</li>
+          <li>Leaderboard</li>
+        </ul>
+        <p style="margin: 6px 0 0; font-size: 13px; color: #5E5E5A">Team switcher at the top when leading more than one team.</p>
+      </div>
+
+      <div style="background: #fff; border: 1px solid #D4D4D0; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+        <h3 style="margin: 0; font-size: 16px">BDE</h3>
+        <ul style="margin: 0; padding: 0 0 0 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.4">
+          <li><b><a href="BDEToday.dc.html">Today ★</a></b>: punch in, next to call, target</li>
+          <li><b><a href="BDELeadMobile.dc.html">Lead → Call → Outcome ★</a></b> (phone)</li>
+          <li>My leads: by status, search</li>
+          <li>Follow-ups: today, overdue, upcoming</li>
+          <li>Attendance: my month, request correction</li>
+          <li>My performance: day / week / month</li>
+          <li>Leaderboard</li>
+        </ul>
+        <p style="margin: 6px 0 0; font-size: 13px; color: #5E5E5A">Bottom tab bar on phone: Today · Leads · Follow-ups · Me.</p>
+      </div>
+
+      <div style="background: #fff; border: 1px solid #D4D4D0; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+        <h3 style="margin: 0; font-size: 16px">Everyone</h3>
+        <ul style="margin: 0; padding: 0 0 0 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.4">
+          <li>Sign in, first-login password change</li>
+          <li>Notification bell (live) + browser push</li>
+          <li>Global search (name / last 4 digits)</li>
+          <li>Profile, change password</li>
+          <li>Empty, loading and error states on every list</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1140}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

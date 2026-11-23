@@ -1,0 +1,17 @@
+# Dependencies, builds, secrets
+node_modules/
+dist/
+coverage/
+.env
+.env.local
+*.log
+
+# The design demo is its own repository (github.com/Subramaniyajothi6/leaddesk-demo)
+demo/
+
+# Earlier design-phase folders, kept on the laptop only
+server/
+prototype/
+templates/
+.pgdata/
+*.tsbuildinfo

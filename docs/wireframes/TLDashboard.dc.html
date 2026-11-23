@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Team Lead dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F1F1E;background:#F4F4F2}
+a{color:#1F1F1E}a:hover{color:#000}
+.nav a{display:block;padding:10px 12px;border-radius:6px;text-decoration:none;font-size:14px;color:#1F1F1E}
+.nav a.on{background:#E6E6E2;font-weight:600}
+.card{background:#fff;border:1px solid #D4D4D0;border-radius:10px;padding:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:6px;border:1px solid #9A9A95;background:#fff;color:#1F1F1E;font:inherit;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn.primary{background:#1F1F1E;border-color:#1F1F1E;color:#fff}
+.btn.sm{min-height:34px;padding:0 10px;font-size:13px}
+.ph{background:repeating-linear-gradient(45deg,#F1F1EE,#F1F1EE 8px,#E8E8E4 8px,#E8E8E4 16px);border:1px dashed #BDBDB8;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#5E5E5A;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;font-weight:600;color:#5E5E5A;padding:8px;border-bottom:1px solid #D4D4D0}
+td{padding:10px 8px;border-bottom:1px solid #ECECE8}
+.bar{height:8px;border-radius:4px;background:#ECECE8;overflow:hidden;min-width:70px;margin-top:4px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #ECECE8;font-size:14px}
+select{font:inherit}
+.proto{flex:1 1 100%;box-sizing:border-box;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:8px 16px;background:#1F1F1E;color:#F4F4F2;font-size:13px}
+.proto a{color:#F4F4F2;text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid #5E5E5A}
+.proto a.on{background:#F4F4F2;color:#1F1F1E;border-color:#F4F4F2;font-weight:600}
+.proto a:hover{border-color:#F4F4F2}
+.soon{display:block;padding:10px 12px;font-size:14px;color:#6B6B66}
+.soon small{font-size:11px;margin-left:6px;padding:1px 6px;border:1px solid #BDBDB8;border-radius:999px}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif">
+  <div class="proto" role="navigation" aria-label="Prototype">
+    <b style="margin-right: 4px">Wireframe prototype</b><span style="color: #BDBDB8">View as</span>
+    <a href="AdminDashboard.dc.html">Admin</a>
+    <a href="TLDashboard.dc.html" class="on" aria-current="true">Team Lead</a>
+    <a href="BDEToday.dc.html">BDE</a>
+    <span style="flex: 1 1 auto"></span>
+    <a href="Main.dc.html">Screen map</a>
+  </div>
+  <nav class="nav" aria-label="Team Lead menu" style="flex: 1 1 200px; max-width: 240px; box-sizing: border-box; background: #fff; border-right: 1px solid #D4D4D0; padding: 20px 12px; display: flex; flex-direction: column; gap: 2px">
+    <div style="font-weight: 700; font-size: 16px; padding: 4px 12px 16px">[COMPANY LOGO]</div>
+    <a class="on" href="TLDashboard.dc.html" aria-current="page">Dashboard</a>
+    <a href="DistributeBDEs.dc.html">Team pool</a>
+    <span class="soon" title="Screen not drawn yet">Leads<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Follow-ups<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Attendance<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Payments<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Reports<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Leaderboard<small>soon</small></span>
+  </nav>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 32px; display: flex; flex-direction: column; gap: 20px">
+    <header style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between">
+      <div>
+        <h1 style="margin: 0; font-size: 24px">Good morning, Rahul</h1>
+        <p style="margin: 4px 0 0; font-size: 14px; color: #5E5E5A">Wednesday, 18 Nov · 7 of 10 BDEs punched in</p>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+        <label style="font-size: 13px; color: #5E5E5A">Team
+          <select style="margin-left: 6px; min-height: 40px; border: 1px solid #9A9A95; border-radius: 6px; padding: 0 8px"><option>Team A</option><option>Team D</option></select>
+        </label>
+        <button class="btn" aria-label="Notifications, 3 unread">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+          <span style="margin-left: 6px">3</span>
+        </button>
+      </div>
+    </header>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px">
+      <section aria-labelledby="nl" class="card" style="border-color: #1F1F1E; display: flex; flex-direction: column; gap: 4px">
+        <div style="display: flex; justify-content: space-between; align-items: center"><h2 id="nl" style="margin: 0; font-size: 16px">Needs leads (2)</h2><span style="font-size: 13px; color: #5E5E5A">Team pool: 140</span></div>
+        <div class="row"><span><b>Priya K</b> · 0 fresh · 6 follow-ups today</span><a class="btn sm primary" href="DistributeBDEs.dc.html">Give 20</a></div>
+        <div class="row"><span><b>Meena R</b> · 2 fresh</span><a class="btn sm primary" href="DistributeBDEs.dc.html">Give 20</a></div>
+        <a href="DistributeBDEs.dc.html" style="font-size: 13px; margin-top: 8px">Distribute to the whole team</a>
+      </section>
+
+      <section aria-labelledby="ar" class="card" style="border-color: #1F1F1E; display: flex; flex-direction: column; gap: 4px">
+        <h2 id="ar" style="margin: 0; font-size: 16px">At risk (3)</h2>
+        <div class="row"><span><b>Kavin T</b> absent · 4 follow-ups due today</span><a class="btn sm" href="ManualAssign.dc.html">Reassign</a></div>
+        <div class="row"><span><b>Arun V</b> · 5 overdue follow-ups</span><button type="button" class="btn sm">Open</button></div>
+        <div class="row"><span><b>Sanjay P</b> inactive · 6 unattended leads</span><a class="btn sm" href="ManualAssign.dc.html">Reassign</a></div>
+      </section>
+    </div>
+
+    <section aria-label="Team numbers this month" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px">
+      <a href="#" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Received by team</span><b style="font-size: 26px">450</b></a>
+      <a href="#" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Given to BDEs</span><b style="font-size: 26px">310</b></a>
+      <a href="#" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Conversions</span><b style="font-size: 26px">41</b></a>
+      <a href="#" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Team conv. %</span><b style="font-size: 26px">9.1%</b><span style="font-size: 12px; color: #5E5E5A">Target 8% ✓</span></a>
+      <a href="#" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Pending follow-ups</span><b style="font-size: 26px">58</b><span style="font-size: 12px; color: #5E5E5A">8 overdue</span></a>
+      <a href="#" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Attendance</span><b style="font-size: 26px">93%</b></a>
+      <a href="DistributeBDEs.dc.html" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Room left (team)</span><b style="font-size: 26px">168</b><span style="font-size: 12px; color: #5E5E5A">of 500 max open · 10 BDEs</span></a>
+    </section>
+
+    <section aria-labelledby="bt" class="card" style="display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center">
+        <h2 id="bt" style="margin: 0; font-size: 16px">BDEs</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+          <div role="radiogroup" aria-label="Period" style="display: flex">
+            <button type="button" role="radio" aria-checked="false" class="btn sm" style="border-radius: 6px 0 0 6px">Today</button>
+            <button type="button" role="radio" aria-checked="false" class="btn sm" style="border-radius: 0; margin-left: -1px">Week</button>
+            <button type="button" role="radio" aria-checked="true" class="btn sm" style="border-radius: 0; margin-left: -1px; background: #1F1F1E; color: #fff; border-color: #1F1F1E">Month</button>
+            <button type="button" role="radio" aria-checked="false" class="btn sm" style="border-radius: 0 6px 6px 0; margin-left: -1px">Custom</button>
+          </div>
+          <label style="font-size: 13px; color: #5E5E5A">Sort <select style="min-height: 34px; border: 1px solid #9A9A95; border-radius: 6px"><option>Needs attention</option><option>Load (fullest first)</option><option>Conversion %</option><option>Name</option></select></label>
+          <button type="button" class="btn sm">Chart view</button>
+          <button type="button" class="btn sm">Export</button>
+        </div>
+      </div>
+      <div style="overflow-x: auto">
+        <table>
+          <thead>
+            <tr><th scope="col" style="position: sticky; left: 0; background: #fff">BDE</th><th scope="col" title="Open leads now vs the most this BDE can hold at one time">Load (open / max) ⓘ</th><th scope="col">Calls today<br>connected %</th><th scope="col">Talk time today</th><th scope="col">Follow-ups<br>due · overdue</th><th scope="col">Assigned</th><th scope="col">Converted</th><th scope="col">Conv. %<br><span style="font-weight: 400">team avg 9.1%</span></th><th scope="col">Target</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="position: sticky; left: 0; background: #fff"><a href="#"><b>Arun V</b></a><br><span style="font-size: 12px; color: #5E5E5A">Late 09:58</span></td><td>50 / 50 · <b>at max</b><div class="bar" aria-hidden="true"><div style="width: 100%; height: 100%; background: #1F1F1E"></div></div><button type="button" class="btn sm" style="margin-top: 4px; min-height: 28px; font-size: 12px">Edit max</button></td><td>22 · 64%</td><td>1 h 05 m</td><td>3 · <b>5 overdue</b></td><td>120</td><td>12</td><td>10.0% ▲</td><td>120%</td></tr>
+            <tr><td style="position: sticky; left: 0; background: #fff"><a href="#"><b>Kavin T</b></a><br><span style="font-size: 12px; color: #5E5E5A">Absent today</span></td><td>22 / 60 · 38 left<div class="bar" aria-hidden="true"><div style="width: 37%; height: 100%; background: #5E5E5A"></div></div><span style="font-size: 12px; color: #5E5E5A">own max · paused (absent)</span></td><td>—</td><td>—</td><td>4 · <b>2 overdue</b></td><td>95</td><td>4</td><td>4.2% ▼</td><td>40%</td></tr>
+            <tr><td style="position: sticky; left: 0; background: #fff"><a href="#"><b>Meena R</b></a><br><span style="font-size: 12px; color: #5E5E5A">In 09:30</span></td><td>10 / 50 · 40 left<div class="bar" aria-hidden="true"><div style="width: 20%; height: 100%; background: #5E5E5A"></div></div></td><td>15 · 53%</td><td>48 m</td><td>2 · 1 overdue</td><td>110</td><td>8</td><td>7.3% ▼</td><td>80%</td></tr>
+            <tr><td style="position: sticky; left: 0; background: #fff"><a href="#"><b>Priya K</b></a><br><span style="font-size: 12px; color: #5E5E5A">In 09:22</span></td><td>38 / 50 · 12 left<div class="bar" aria-hidden="true"><div style="width: 76%; height: 100%; background: #5E5E5A"></div></div></td><td>18 · 72%</td><td>1 h 20 m</td><td>6 · 0</td><td>125</td><td>14</td><td><b>11.2% ▲</b></td><td>140%</td></tr>
+          </tbody>
+          <tfoot>
+            <tr style="font-weight: 700"><td style="position: sticky; left: 0; background: #F4F4F2">Team (10 BDEs)</td><td style="background: #F4F4F2">332 / 500 · 168 left</td><td style="background: #F4F4F2">142 · 61%</td><td style="background: #F4F4F2">7 h 40 m</td><td style="background: #F4F4F2">31 · 8 overdue</td><td style="background: #F4F4F2">450</td><td style="background: #F4F4F2">41</td><td style="background: #F4F4F2">9.1%</td><td style="background: #F4F4F2">114%</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      <p style="margin: 0; font-size: 13px; color: #5E5E5A">Sorted by "needs attention": at max, absent or overdue first. Click a name to open that BDE's leads. ▲ ▼ = above or below the team average. Load = open leads now vs the most a BDE can hold at one time (default 50; "Edit max" changes it for that BDE).</p>
+    </section>
+
+    <section aria-labelledby="tr" class="card" style="display: flex; flex-direction: column; gap: 12px">
+      <h2 id="tr" style="margin: 0; font-size: 16px">Calls and conversions per day</h2>
+      <div class="ph" style="height: 200px">[Bar + line chart · last 30 days]</div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

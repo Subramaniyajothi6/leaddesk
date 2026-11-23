@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F1F1E;background:#F4F4F2}
+a{color:#1F1F1E}a:hover{color:#000}
+.nav a{display:block;padding:10px 12px;border-radius:6px;text-decoration:none;font-size:14px;color:#1F1F1E}
+.nav a.on{background:#E6E6E2;font-weight:600}
+.card{background:#fff;border:1px solid #D4D4D0;border-radius:10px;padding:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:6px;border:1px solid #9A9A95;background:#fff;color:#1F1F1E;font:inherit;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn.primary{background:#1F1F1E;border-color:#1F1F1E;color:#fff}
+.ph{background:repeating-linear-gradient(45deg,#F1F1EE,#F1F1EE 8px,#E8E8E4 8px,#E8E8E4 16px);border:1px dashed #BDBDB8;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#5E5E5A;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;font-weight:600;color:#5E5E5A;padding:8px;border-bottom:1px solid #D4D4D0}
+td{padding:10px 8px;border-bottom:1px solid #ECECE8}
+.proto{flex:1 1 100%;box-sizing:border-box;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:8px 16px;background:#1F1F1E;color:#F4F4F2;font-size:13px}
+.proto a{color:#F4F4F2;text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid #5E5E5A}
+.proto a.on{background:#F4F4F2;color:#1F1F1E;border-color:#F4F4F2;font-weight:600}
+.proto a:hover{border-color:#F4F4F2}
+.soon{display:block;padding:10px 12px;font-size:14px;color:#6B6B66}
+.soon small{font-size:11px;margin-left:6px;padding:1px 6px;border:1px solid #BDBDB8;border-radius:999px}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif">
+  <div class="proto" role="navigation" aria-label="Prototype">
+    <b style="margin-right: 4px">Wireframe prototype</b><span style="color: #BDBDB8">View as</span>
+    <a href="AdminDashboard.dc.html" class="on" aria-current="true">Admin</a>
+    <a href="TLDashboard.dc.html">Team Lead</a>
+    <a href="BDEToday.dc.html">BDE</a>
+    <span style="flex: 1 1 auto"></span>
+    <a href="Main.dc.html">Screen map</a>
+  </div>
+  <nav class="nav" aria-label="Admin menu" style="flex: 1 1 200px; max-width: 240px; box-sizing: border-box; background: #fff; border-right: 1px solid #D4D4D0; padding: 20px 12px; display: flex; flex-direction: column; gap: 2px">
+    <div style="font-weight: 700; font-size: 16px; padding: 4px 12px 16px">[COMPANY LOGO]</div>
+    <a class="on" href="AdminDashboard.dc.html" aria-current="page">Dashboard</a>
+    <span class="soon" title="Screen not drawn yet">Leads<small>soon</small></span>
+    <a href="UploadLeads.dc.html">Upload</a>
+    <a href="AllocateTeams.dc.html">Allocation</a>
+    <a href="TeamsPeople.dc.html">Teams &amp; people</a>
+    <span class="soon" title="Screen not drawn yet">Attendance<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Follow-ups<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Reports<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Leaderboard<small>soon</small></span>
+    <a href="FinanceDashboard.dc.html">Finance</a>
+    <a href="Settings.dc.html">Settings</a>
+    <span class="soon" title="Screen not drawn yet">Audit log<small>soon</small></span>
+  </nav>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 32px; display: flex; flex-direction: column; gap: 20px">
+    <header style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between">
+      <div>
+        <h1 style="margin: 0; font-size: 24px">Dashboard</h1>
+        <p style="margin: 4px 0 0; font-size: 14px; color: #5E5E5A">Wednesday, 18 Nov · whole company · updates live</p>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+        <label style="font-size: 13px; color: #5E5E5A">Period
+          <select style="margin-left: 6px; min-height: 40px; border: 1px solid #9A9A95; border-radius: 6px; padding: 0 8px; font: inherit"><option>This month</option><option>This week</option><option>Today</option><option>Custom…</option></select>
+        </label>
+        <label style="font-size: 13px; color: #5E5E5A">Team
+          <select style="margin-left: 6px; min-height: 40px; border: 1px solid #9A9A95; border-radius: 6px; padding: 0 8px; font: inherit"><option>All teams</option><option>Team A</option><option>Team B</option><option>Team C</option><option>Team D</option></select>
+        </label>
+        <input type="search" aria-label="Search leads" placeholder="Search name or last 4 digits" style="min-height: 40px; width: 220px; border: 1px solid #9A9A95; border-radius: 6px; padding: 0 10px; font: inherit">
+        <button class="btn" aria-label="Notifications, 4 unread">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+          <span style="margin-left: 6px">4</span>
+        </button>
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: #D4D4D0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600" aria-label="Signed in as Admin">AD</div>
+      </div>
+    </header>
+
+    <section aria-labelledby="setup" class="card" style="display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; border-style: dashed">
+      <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 6px">
+        <h2 id="setup" style="margin: 0; font-size: 15px">Setup: 5 of 6 done</h2>
+        <div class="bar" role="progressbar" aria-label="Setup progress" aria-valuenow="83" aria-valuemin="0" aria-valuemax="100" style="height: 8px; border-radius: 4px; background: #ECECE8; overflow: hidden"><div style="width: 83%; height: 100%; background: #1F1F1E"></div></div>
+        <span style="font-size: 13px; color: #5E5E5A">Left: <b>Set monthly targets</b> (about 5 min). This card disappears once setup is finished.</span>
+      </div>
+      <div style="display: flex; gap: 8px">
+        <a class="btn primary" href="Settings.dc.html">Set targets</a>
+        <button type="button" class="btn">Remove sample data</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="needs" class="card" style="border-color: #1F1F1E; display: flex; flex-direction: column; gap: 12px">
+      <h2 id="needs" style="margin: 0; font-size: 16px">Needs your action (6)</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px">
+        <div style="border: 1px solid #D4D4D0; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+          <b style="font-size: 14px">Team B needs leads</b>
+          <span style="font-size: 13px; color: #5E5E5A">2 BDEs have 0 fresh leads · team pool empty · company pool 180</span>
+          <a class="btn primary" href="AllocateTeams.dc.html">Allocate leads</a>
+        </div>
+        <div style="border: 1px solid #D4D4D0; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+          <b style="font-size: 14px">Team C has no Team Lead</b>
+          <span style="font-size: 13px; color: #5E5E5A">Since 14 Nov · you are acting as Team Lead</span>
+          <a class="btn" href="TeamsPeople.dc.html">Assign Team Lead</a>
+        </div>
+        <div style="border: 1px solid #D4D4D0; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+          <b style="font-size: 14px">5 payments to confirm</b>
+          <span style="font-size: 13px; color: #5E5E5A">Recorded by Team Leads · ₹1,20,000 total</span>
+          <a class="btn" href="FinanceDashboard.dc.html">Review payments</a>
+        </div>
+        <div style="border: 1px solid #D4D4D0; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+          <b style="font-size: 14px">3 attendance corrections</b>
+          <span style="font-size: 13px; color: #5E5E5A">Forgot punch-out (2) · wrong punch-in (1) · oldest 2 days</span>
+          <a class="btn" href="#" title="Attendance screen not drawn yet">Review corrections</a>
+        </div>
+        <div style="border: 1px solid #D4D4D0; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+          <b style="font-size: 14px">4 converted, no payment yet</b>
+          <span style="font-size: 13px; color: #5E5E5A">Converted more than 7 days ago · Team A 3 · Team B 1</span>
+          <a class="btn" href="FinanceDashboard.dc.html">Open list</a>
+        </div>
+        <div style="border: 1px solid #D4D4D0; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+          <b style="font-size: 14px">6 unattended leads</b>
+          <span style="font-size: 13px; color: #5E5E5A">Sanjay P (Team A) is inactive · 2 follow-ups due</span>
+          <a class="btn" href="TeamsPeople.dc.html">Reassign</a>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="kpi" style="display: flex; flex-direction: column; gap: 10px">
+      <h2 id="kpi" style="margin: 0; font-size: 16px">This month <span style="font-weight: 400; font-size: 13px; color: #5E5E5A">· compared with last month (October)</span></h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px">
+        <a href="UploadLeads.dc.html" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Leads uploaded</span><b style="font-size: 26px">1,480</b><span style="font-size: 12px; color: #5E5E5A">▲ 220 vs Oct</span></a>
+        <a href="AllocateTeams.dc.html" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Allocated to teams</span><b style="font-size: 26px">1,300</b><span style="font-size: 12px; color: #5E5E5A">180 still in company pool</span></a>
+        <a href="#" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Conversions</span><b style="font-size: 26px">96</b><span style="font-size: 12px; color: #5E5E5A">▲ 12 vs Oct</span></a>
+        <a href="#" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Conversion %</span><b style="font-size: 26px">7.4%</b><span style="font-size: 12px; color: #5E5E5A">Target 8% · ▼ 0.3 pts vs Oct</span></a>
+        <a href="FinanceDashboard.dc.html" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Confirmed revenue</span><b style="font-size: 26px">₹4,80,000</b><span style="font-size: 12px; color: #5E5E5A">▲ 18% vs Oct · ₹1,20,000 pending</span></a>
+        <a href="#" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Fresh leads (never called)</span><b style="font-size: 26px">412</b><span style="font-size: 12px; color: #5E5E5A">with BDEs · 52 more in team pools</span></a>
+        <a href="#" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Overdue follow-ups</span><b style="font-size: 26px">37</b><span style="font-size: 12px; color: #5E5E5A">▲ 9 vs last week</span></a>
+        <a href="TeamsPeople.dc.html" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">BDEs active / inactive</span><b style="font-size: 26px">28 / 2</b><span style="font-size: 12px; color: #5E5E5A">4 teams · 2 Team Leads</span></a>
+        <a href="#" class="card" style="text-decoration: none; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Present today</span><b style="font-size: 26px">25 / 28</b><span style="font-size: 12px; color: #5E5E5A">3 absent · 4 late</span></a>
+      </div>
+    </section>
+
+    <section aria-labelledby="teams" class="card" style="display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center"><h2 id="teams" style="margin: 0; font-size: 16px">Team comparison</h2><span style="font-size: 13px; color: #5E5E5A">Sorted by conversion % · click a header to sort · <a href="#">Full report</a></span></div>
+      <div style="overflow-x: auto">
+        <table>
+          <thead><tr><th scope="col">Team</th><th scope="col">Team Lead</th><th scope="col">BDEs</th><th scope="col">Leads</th><th scope="col">Conv.</th><th scope="col">Conv. %</th><th scope="col">vs Oct</th><th scope="col">In team pool</th><th scope="col">Fresh with BDEs</th><th scope="col">Overdue f/u</th><th scope="col">Attendance</th></tr></thead>
+          <tbody>
+            <tr><td>Team A</td><td>Rahul S</td><td>10</td><td>450</td><td>41</td><td><b>9.1%</b></td><td>▲ 0.6</td><td>40</td><td>120</td><td>8</td><td>96%</td></tr>
+            <tr><td>Team B</td><td>Divya M</td><td>9</td><td>450</td><td>30</td><td>6.7%</td><td>▼ 0.4</td><td><b>0</b></td><td><b>0</b></td><td>14</td><td>91%</td></tr>
+            <tr style="background: #F4F4F2"><td>Team C</td><td><b>None</b> (you)</td><td>9</td><td>400</td><td>25</td><td>6.3%</td><td>▼ 1.1</td><td>12</td><td>292</td><td><b>15</b></td><td>88%</td></tr>
+            <tr style="color: #5E5E5A"><td>Team D</td><td>Rahul S</td><td>0</td><td>0</td><td>—</td><td>—</td><td>—</td><td>0</td><td>0</td><td>0</td><td>—</td></tr>
+            <tr><td><b>Total</b></td><td></td><td><b>28</b></td><td><b>1,300</b></td><td><b>96</b></td><td><b>7.4%</b></td><td></td><td><b>52</b></td><td><b>412</b></td><td><b>37</b></td><td><b>92%</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin: 0; font-size: 12px; color: #5E5E5A">Team D is new and has no BDEs yet. Grey row = needs attention.</p>
+    </section>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px">
+      <section aria-labelledby="tls" class="card" style="display: flex; flex-direction: column; gap: 12px">
+        <h2 id="tls" style="margin: 0; font-size: 16px">Team Lead comparison</h2>
+        <div style="overflow-x: auto">
+          <table>
+            <thead><tr><th scope="col">Team Lead</th><th scope="col">Teams</th><th scope="col">Conv. %</th><th scope="col">Pool given out in</th><th scope="col">Payments recorded</th><th scope="col">Overdue f/u</th></tr></thead>
+            <tbody>
+              <tr><td>Rahul S</td><td>A, D</td><td><b>9.1%</b></td><td>1.2 days</td><td>11</td><td>8</td></tr>
+              <tr><td>Divya M</td><td>B</td><td>6.7%</td><td>3.5 days</td><td>6</td><td>14</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin: 0; font-size: 12px; color: #5E5E5A">"Pool given out in" = average time from team pool to a BDE.</p>
+      </section>
+
+      <section aria-labelledby="attn" class="card" style="display: flex; flex-direction: column; gap: 12px">
+        <div style="display: flex; justify-content: space-between; align-items: center"><h2 id="attn" style="margin: 0; font-size: 16px">BDEs: top and needing attention</h2><a href="#" style="font-size: 13px">Leaderboard</a></div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; font-size: 13px">
+          <div>
+            <b style="font-size: 12px; color: #5E5E5A">TOP 3</b>
+            <ol style="margin: 6px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px">
+              <li>Priya K · A · 14 · 11.2%</li>
+              <li>Arun V · A · 12 · 10.0%</li>
+              <li>Meena R · B · 10 · 8.3%</li>
+            </ol>
+          </div>
+          <div>
+            <b style="font-size: 12px; color: #5E5E5A">NEEDS ATTENTION</b>
+            <ul style="margin: 6px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px">
+              <li>Kavin T · A · 4.2% · 2 overdue</li>
+              <li>Nisha L · C · 3.8% · 6 overdue</li>
+              <li>Vijay R · B · 0 calls in 2 days</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="trend" class="card" style="display: flex; flex-direction: column; gap: 12px">
+        <h2 id="trend" style="margin: 0; font-size: 16px">Conversions per week, by team</h2>
+        <div class="ph" style="height: 200px">[Line chart · Teams A–C · last 8 weeks · dashed line = target]</div>
+      </section>
+      <section aria-labelledby="source" class="card" style="display: flex; flex-direction: column; gap: 12px">
+        <h2 id="source" style="margin: 0; font-size: 16px">Conversion % by lead source</h2>
+        <div class="ph" style="height: 200px">[Bar chart · Website · Referral · Walk-in · Campaign · with lead count]</div>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1640}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

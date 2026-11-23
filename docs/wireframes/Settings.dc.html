@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F1F1E;background:#F4F4F2}
+a{color:#1F1F1E}a:hover{color:#000}
+.nav a{display:block;padding:10px 12px;border-radius:6px;text-decoration:none;font-size:14px;color:#1F1F1E}
+.nav a.on{background:#E6E6E2;font-weight:600}
+.sub a{display:block;padding:9px 12px;border-radius:6px;text-decoration:none;font-size:14px;color:#1F1F1E}
+.sub a.on{background:#1F1F1E;color:#fff;font-weight:600}
+.card{background:#fff;border:1px solid #D4D4D0;border-radius:10px;padding:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:6px;border:1px solid #9A9A95;background:#fff;color:#1F1F1E;font:inherit;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn.primary{background:#1F1F1E;border-color:#1F1F1E;color:#fff}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;font-weight:600;color:#5E5E5A;padding:8px;border-bottom:1px solid #D4D4D0}
+td{padding:9px 8px;border-bottom:1px solid #ECECE8;vertical-align:middle}
+select,input{font:inherit}
+.sw{display:inline-block;width:14px;height:14px;border-radius:4px;border:1px solid #9A9A95;vertical-align:middle;margin-right:6px}
+.proto{flex:1 1 100%;box-sizing:border-box;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:8px 16px;background:#1F1F1E;color:#F4F4F2;font-size:13px}
+.proto a{color:#F4F4F2;text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid #5E5E5A}
+.proto a.on{background:#F4F4F2;color:#1F1F1E;border-color:#F4F4F2;font-weight:600}
+.proto a:hover{border-color:#F4F4F2}
+.soon{display:block;padding:10px 12px;font-size:14px;color:#6B6B66}
+.soon small{font-size:11px;margin-left:6px;padding:1px 6px;border:1px solid #BDBDB8;border-radius:999px}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif">
+  <div class="proto" role="navigation" aria-label="Prototype">
+    <b style="margin-right: 4px">Wireframe prototype</b><span style="color: #BDBDB8">View as</span>
+    <a href="AdminDashboard.dc.html" class="on" aria-current="true">Admin</a>
+    <a href="TLDashboard.dc.html">Team Lead</a>
+    <a href="BDEToday.dc.html">BDE</a>
+    <span style="flex: 1 1 auto"></span>
+    <a href="Main.dc.html">Screen map</a>
+  </div>
+  <nav class="nav" aria-label="Admin menu" style="flex: 1 1 200px; max-width: 240px; box-sizing: border-box; background: #fff; border-right: 1px solid #D4D4D0; padding: 20px 12px; display: flex; flex-direction: column; gap: 2px">
+    <div style="font-weight: 700; font-size: 16px; padding: 4px 12px 16px">[COMPANY LOGO]</div>
+    <a href="AdminDashboard.dc.html">Dashboard</a>
+    <span class="soon" title="Screen not drawn yet">Leads<small>soon</small></span>
+    <a href="UploadLeads.dc.html">Upload</a>
+    <a href="AllocateTeams.dc.html">Allocation</a>
+    <a href="TeamsPeople.dc.html">Teams &amp; people</a>
+    <span class="soon" title="Screen not drawn yet">Attendance<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Follow-ups<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Reports<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Leaderboard<small>soon</small></span>
+    <a href="FinanceDashboard.dc.html">Finance</a>
+    <a class="on" href="Settings.dc.html" aria-current="page">Settings</a>
+    <span class="soon" title="Screen not drawn yet">Audit log<small>soon</small></span>
+  </nav>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 32px; display: flex; flex-direction: column; gap: 20px">
+    <h1 style="margin: 0; font-size: 24px">Settings</h1>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+      <nav class="sub card" aria-label="Setting areas" style="flex: 1 1 200px; max-width: 240px; padding: 10px; display: flex; flex-direction: column; gap: 2px">
+        <a href="#">Company &amp; labels</a>
+        <a href="#">Allocation</a>
+        <a href="#">Custom fields &amp; sources</a>
+        <a class="on" href="#" aria-current="page">Lead statuses</a>
+        <a href="#">Recycling &amp; attempts</a>
+        <a href="#">Follow-ups</a>
+        <a href="#">Attendance</a>
+        <a href="#">Targets &amp; performance</a>
+        <a href="#">Lead scoring</a>
+        <a href="#">WhatsApp templates</a>
+        <a href="#">Reports &amp; exports</a>
+        <a href="#">Finance</a>
+      </nav>
+
+      <section aria-labelledby="st" class="card" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between">
+          <div>
+            <h2 id="st" style="margin: 0; font-size: 18px">Lead statuses</h2>
+            <p style="margin: 4px 0 0; font-size: 13px; color: #5E5E5A">Drag ⋮⋮ to reorder. Statuses in use can be hidden, not deleted.</p>
+          </div>
+          <button type="button" class="btn">Add status</button>
+        </div>
+        <div style="overflow-x: auto">
+          <table>
+            <thead><tr><th scope="col"><span style="position: absolute; left: -9999px">Order</span></th><th scope="col">Name</th><th scope="col">Group</th><th scope="col">Counts as contacted</th><th scope="col">Needs follow-up date</th><th scope="col">Remark required</th><th scope="col">Can move to</th></tr></thead>
+            <tbody>
+              <tr><td aria-hidden="true">⋮⋮</td><td><span class="sw"></span>New</td><td>Open</td><td><input type="checkbox" aria-label="New counts as contacted"></td><td><input type="checkbox" aria-label="New needs follow-up"></td><td><input type="checkbox" aria-label="New remark required"></td><td><a href="#" style="font-size: 13px">Contacted, Not Reachable, Invalid +1</a></td></tr>
+              <tr><td aria-hidden="true">⋮⋮</td><td><span class="sw"></span>Contacted</td><td>Open</td><td><input type="checkbox" checked aria-label="Contacted counts as contacted"></td><td><input type="checkbox" aria-label="Contacted needs follow-up"></td><td><input type="checkbox" aria-label="Contacted remark required"></td><td><a href="#" style="font-size: 13px">Interested, Not Interested, Follow-up</a></td></tr>
+              <tr><td aria-hidden="true">⋮⋮</td><td><span class="sw"></span>Interested</td><td>Open</td><td><input type="checkbox" checked aria-label="Interested counts as contacted"></td><td><input type="checkbox" aria-label="Interested needs follow-up"></td><td><input type="checkbox" checked aria-label="Interested remark required"></td><td><a href="#" style="font-size: 13px">Follow-up, Converted</a></td></tr>
+              <tr><td aria-hidden="true">⋮⋮</td><td><span class="sw"></span>Follow-up Required</td><td>Open</td><td><input type="checkbox" checked aria-label="Follow-up counts as contacted"></td><td><input type="checkbox" checked aria-label="Follow-up needs follow-up"></td><td><input type="checkbox" checked aria-label="Follow-up remark required"></td><td><a href="#" style="font-size: 13px">Interested, Converted, Not Interested, Lost</a></td></tr>
+              <tr><td aria-hidden="true">⋮⋮</td><td><span class="sw"></span>Not Reachable</td><td>Open</td><td><input type="checkbox" aria-label="Not Reachable counts as contacted"></td><td><input type="checkbox" aria-label="Not Reachable needs follow-up"></td><td><input type="checkbox" aria-label="Not Reachable remark required"></td><td><a href="#" style="font-size: 13px">Contacted, Not Reachable</a></td></tr>
+              <tr><td aria-hidden="true">⋮⋮</td><td><span class="sw" style="background: #1F1F1E"></span><b>Converted</b></td><td>Won</td><td><input type="checkbox" checked aria-label="Converted counts as contacted"></td><td><input type="checkbox" aria-label="Converted needs follow-up"></td><td><input type="checkbox" checked aria-label="Converted remark required"></td><td style="font-size: 13px; color: #5E5E5A">Final (reopen by TL/Admin)</td></tr>
+              <tr><td aria-hidden="true">⋮⋮</td><td><span class="sw"></span>Not Interested</td><td>Lost</td><td><input type="checkbox" checked aria-label="Not Interested counts as contacted"></td><td><input type="checkbox" aria-label="Not Interested needs follow-up"></td><td><input type="checkbox" checked aria-label="Not Interested remark required"></td><td style="font-size: 13px; color: #5E5E5A">Final</td></tr>
+              <tr><td aria-hidden="true">⋮⋮</td><td><span class="sw"></span>Do Not Call</td><td>Excluded</td><td>—</td><td>—</td><td><input type="checkbox" checked aria-label="Do Not Call remark required"></td><td style="font-size: 13px; color: #5E5E5A">Final · never allocated</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin: 0; font-size: 13px; color: #5E5E5A">Groups decide the maths: <b>Won</b> = conversion, <b>Excluded</b> = left out of conversion %, <b>Open</b> = still being worked.</p>
+        <footer style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; border-top: 1px solid #ECECE8; padding-top: 14px">
+          <span style="font-size: 13px; color: #5E5E5A">Last changed by Admin (AD) · 12 Nov 2026, 16:05 · <a href="#">History</a></span>
+          <div style="display: flex; gap: 8px"><button type="button" class="btn">Discard</button><button type="button" class="btn primary">Save changes</button></div>
+        </footer>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

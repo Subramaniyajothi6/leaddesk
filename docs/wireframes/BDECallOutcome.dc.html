@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>After the call</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F1F1E;background:#F4F4F2}
+a{color:#1F1F1E}a:hover{color:#000}
+.chip{min-height:44px;padding:0 14px;border-radius:999px;border:1px solid #9A9A95;background:#fff;font:inherit;font-size:14px;cursor:pointer;color:#1F1F1E}
+.chip.on{background:#1F1F1E;color:#fff;border-color:#1F1F1E;font-weight:700}
+.seg{flex:1;min-height:44px;border:1px solid #9A9A95;background:#fff;font:inherit;font-size:14px;cursor:pointer;color:#1F1F1E}
+.seg.on{background:#1F1F1E;color:#fff;border-color:#1F1F1E;font-weight:700}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; position: relative; overflow: hidden; background: #8A8A86; font-family: Inter, system-ui, sans-serif">
+  <div aria-hidden="true" style="padding: 20px 16px; color: #F4F4F2; font-size: 14px">Karthik Raj · +91 98XXX XX210</div>
+
+  <section role="dialog" aria-modal="true" aria-labelledby="h" style="position: absolute; left: 0; right: 0; bottom: 0; background: #fff; border-radius: 18px 18px 0 0; padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box">
+    <div aria-hidden="true" style="width: 40px; height: 5px; border-radius: 3px; background: #D4D4D0; margin: 0 auto"></div>
+    <div style="display: flex; justify-content: space-between; align-items: baseline">
+      <h1 id="h" style="margin: 0; font-size: 19px">How did the call go?</h1>
+      <span style="display: flex; gap: 12px; align-items: baseline"><span style="font-size: 13px; color: #5E5E5A">Call 3:12</span><a href="BDELeadMobile.dc.html" style="font-size: 14px; font-weight: 600">Back to lead</a></span>
+    </div>
+
+    <div role="radiogroup" aria-label="Did they answer?" style="display: flex">
+      <button type="button" role="radio" aria-checked="true" class="seg on" style="border-radius: 8px 0 0 8px">Answered</button>
+      <button type="button" role="radio" aria-checked="false" class="seg" style="margin-left: -1px">No answer</button>
+      <button type="button" role="radio" aria-checked="false" class="seg" style="margin-left: -1px; border-radius: 0 8px 8px 0">Wrong no.</button>
+    </div>
+
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+      <legend style="font-size: 13px; color: #5E5E5A; margin-bottom: 8px">New status (from Interested)</legend>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <button type="button" class="chip on" aria-pressed="true">Follow-up Required</button>
+        <button type="button" class="chip" aria-pressed="false">Converted</button>
+        <button type="button" class="chip" aria-pressed="false">Not Interested</button>
+        <button type="button" class="chip" aria-pressed="false">Lost</button>
+      </div>
+    </fieldset>
+
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+      <legend style="font-size: 13px; color: #5E5E5A; margin-bottom: 8px">Follow-up (required)</legend>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <button type="button" class="chip on" aria-pressed="true">Tomorrow 11:00</button>
+        <button type="button" class="chip" aria-pressed="false">In 2 days</button>
+        <button type="button" class="chip" aria-pressed="false">Next week</button>
+        <button type="button" class="chip" aria-pressed="false">Pick date…</button>
+      </div>
+    </fieldset>
+
+    <label style="font-size: 13px; color: #5E5E5A; display: flex; flex-direction: column; gap: 6px">Remark (required)
+      <textarea rows="3" style="font: inherit; font-size: 15px; color: #1F1F1E; border: 1px solid #9A9A95; border-radius: 8px; padding: 10px; resize: none">Salary on 1st, will pay fee then. Send batch timings on WhatsApp.</textarea>
+    </label>
+
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px">
+      <a href="BDEToday.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border: 1px solid #9A9A95; border-radius: 10px; font-weight: 700; text-decoration: none">Save</a>
+      <a href="BDELeadMobile.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; background: #1F1F1E; color: #fff; border-radius: 10px; font-weight: 700; text-decoration: none">Save &amp; next lead</a>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

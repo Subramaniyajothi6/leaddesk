@@ -1,0 +1,58 @@
+{
+  "v": 3,
+  "createdOnFiles": {"v": 1, "at": "2026-11-18T09:30:00Z"},
+  "title": "BDE Lead System Wireframes",
+  "launch": {"view": "canvas", "page": "overview"},
+  "pages": [
+    {"id": "overview", "name": "Overview"},
+    {"id": "admin", "name": "Admin"},
+    {"id": "teamlead", "name": "Team Lead"},
+    {"id": "bde", "name": "BDE"},
+    {"id": "finance", "name": "Finance (Admin)"}
+  ],
+  "boards": {
+    "Main.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1140, "title": "Screen map and core flow", "page": "overview", "expand": "fill", "is_interactive": true},
+    "AdminDashboard.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1640, "title": "Admin · Dashboard", "page": "admin", "expand": "fill", "is_interactive": true},
+    "UploadLeads.dc.html": {"x": 1360, "y": 0, "w": 1280, "h": 1080, "title": "Admin · Upload leads", "page": "admin", "expand": "fill", "is_interactive": true},
+    "AllocateTeams.dc.html": {"x": 2720, "y": 0, "w": 1280, "h": 1040, "title": "Admin · Allocate to teams", "page": "admin", "expand": "fill", "is_interactive": true},
+    "TeamsPeople.dc.html": {"x": 4080, "y": 0, "w": 1280, "h": 980, "title": "Admin · Teams & people", "page": "admin", "expand": "fill", "is_interactive": true},
+    "Settings.dc.html": {"x": 5440, "y": 0, "w": 1280, "h": 1080, "title": "Admin · Settings", "page": "admin", "expand": "fill", "is_interactive": true},
+    "TLDashboard.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1180, "title": "Team Lead · Dashboard", "page": "teamlead", "expand": "fill", "is_interactive": true},
+    "DistributeBDEs.dc.html": {"x": 1360, "y": 0, "w": 1280, "h": 1100, "title": "Team Lead · Distribute, automatic (Smart)", "page": "teamlead", "expand": "fill", "is_interactive": true},
+    "ManualAssign.dc.html": {"x": 2720, "y": 0, "w": 1280, "h": 1080, "title": "Team Lead · Distribute, manual", "page": "teamlead", "expand": "fill", "is_interactive": true},
+    "BDEToday.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1080, "title": "BDE · Today (laptop)", "page": "bde", "expand": "fill", "is_interactive": true},
+    "BDELeadMobile.dc.html": {"x": 1360, "y": 0, "w": 390, "h": 844, "title": "BDE · Lead (phone)", "page": "bde", "is_interactive": true},
+    "BDECallOutcome.dc.html": {"x": 1830, "y": 0, "w": 390, "h": 844, "title": "BDE · After the call (phone)", "page": "bde", "is_interactive": true},
+    "FinanceDashboard.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1100, "title": "Finance · Dashboard", "page": "finance", "expand": "fill", "is_interactive": true},
+    "FinanceCalculators.dc.html": {"x": 1360, "y": 0, "w": 1280, "h": 1040, "title": "Finance · Calculators & history", "page": "finance", "expand": "fill", "is_interactive": true}
+  },
+  "order": [
+    "Main.dc.html",
+    "AdminDashboard.dc.html", "UploadLeads.dc.html", "AllocateTeams.dc.html", "TeamsPeople.dc.html", "Settings.dc.html",
+    "TLDashboard.dc.html", "DistributeBDEs.dc.html", "ManualAssign.dc.html",
+    "BDEToday.dc.html", "BDELeadMobile.dc.html", "BDECallOutcome.dc.html",
+    "FinanceDashboard.dc.html", "FinanceCalculators.dc.html"
+  ],
+  "notes": {
+    "t_overview": {"x": 0, "y": -300, "text": "Wireframes v1: low fidelity, layout and flow only", "kind": "title1", "maxW": 1840, "page": "overview"},
+    "n_overview": {"x": 1360, "y": 0, "w": 420, "fill": "orange", "page": "overview", "text": "UX rules for every screen\n\n1. Each role lands on a 'what needs me now' screen, not a wall of charts.\n2. Every alert has the action button next to it (Distribute, Reassign, Call).\n3. Numbers are clickable and open the filtered list behind them.\n4. Before any bulk action (allocate, reassign), show a preview, then confirm.\n5. BDE calling flow is phone-first: Call → outcome → next lead in 3 taps.\n6. Grey = wireframe. Colour, type and brand come in the visual design step."},
+    "t_admin": {"x": 0, "y": -300, "text": "Admin", "kind": "title1", "maxW": 6720, "page": "admin"},
+    "n_admin1": {"x": 0, "y": 1720, "w": 420, "fill": "orange", "page": "admin", "text": "Dashboard, top to bottom: setup checklist (only until setup is done) → Needs your action (lead requests, no Team Lead, payments, attendance corrections, converted-not-paid, unattended leads; each with its fix button) → this month vs last month → team comparison → Team Lead comparison, top / needs-attention BDEs, trends. Finance details stay on the Finance page."},
+    "n_admin2": {"x": 1360, "y": 1160, "w": 420, "fill": "orange", "page": "admin", "text": "Upload is a 3-step wizard: file → map columns → check results. Nothing is saved until 'Add 1,180 leads'. Duplicates and errors are downloadable."},
+    "n_admin3": {"x": 2720, "y": 1120, "w": 420, "fill": "orange", "page": "admin", "text": "Allocation always shows a live preview per team before confirming. Method can be changed and the numbers update."},
+    "n_admin4": {"x": 4080, "y": 1060, "w": 420, "fill": "orange", "page": "admin", "text": "Deactivate / move BDE opens a dialog that asks what to do with their open leads (keep in old team pool, move with them)."},
+    "n_admin5": {"x": 5440, "y": 1160, "w": 420, "fill": "orange", "page": "admin", "text": "Settings grouped by area, with a left list. Every change shows who changed it and when (audit)."},
+    "t_tl": {"x": 0, "y": -300, "text": "Team Lead", "kind": "title1", "maxW": 4000, "page": "teamlead"},
+    "n_tl3": {"x": 2720, "y": 1160, "w": 420, "fill": "orange", "page": "teamlead", "text": "Manual: tick leads, pick a BDE (load shown next to each name). Inactive BDEs can't be picked; a previous owner isn't offered. Going over a max shows a warning and needs a reason, saved in the audit log."},
+    "n_tl1": {"x": 0, "y": 1260, "w": 420, "fill": "orange", "page": "teamlead", "text": "Two action lists first: 'Needs leads' and 'At risk' (absent BDE with follow-ups due, overdue follow-ups). Each row has its fix button."},
+    "n_tl2": {"x": 1360, "y": 1180, "w": 420, "fill": "orange", "page": "teamlead", "text": "Automatic (Smart / Equal / Workload): the preview shows how many each BDE gets and WHY (room, performance, match). Skipped BDEs are listed with the reason. Auto-refill switch per team, off by default."},
+    "t_bde": {"x": 0, "y": -300, "text": "BDE", "kind": "title1", "maxW": 2220, "page": "bde"},
+    "n_bde1": {"x": 0, "y": 1160, "w": 420, "fill": "orange", "page": "bde", "text": "'Today' replaces a dashboard: punch-in, a 'Next to call' queue (overdue follow-ups → due today → fresh leads by score), and progress to today's target."},
+    "n_bde2": {"x": 1360, "y": 924, "w": 420, "fill": "orange", "page": "bde", "text": "Phone: big Call and WhatsApp buttons. Number masked until pressed. After the call the outcome sheet opens automatically."},
+    "n_bde3": {"x": 1830, "y": 924, "w": 390, "fill": "orange", "page": "bde", "text": "Outcome sheet: only valid next statuses are shown. Picking 'Follow-up' reveals date/time quick picks. 'Save & next' loads the next lead."},
+    "t_fin": {"x": 0, "y": -300, "text": "Finance (Admin only)", "kind": "title1", "maxW": 2640, "page": "finance"},
+    "n_fin1": {"x": 0, "y": 1180, "w": 420, "fill": "orange", "page": "finance", "text": "Only CONFIRMED payments count. 'Pending payments' and 'Converted, no payment' are separate action lists."},
+    "n_fin2": {"x": 1360, "y": 1120, "w": 420, "fill": "orange", "page": "finance", "text": "One calculator panel with tabs. Results show the formula used. Every calculation is saved to history automatically."}
+  },
+  "designSystems": []
+}

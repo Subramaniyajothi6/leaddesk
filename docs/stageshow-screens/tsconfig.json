@@ -1,0 +1,1 @@
+{ "extends": "../playground/tsconfig.json", "include": ["./**/*.tsx", "../kit/**/*", "../examples/bde-call/**/*"] }

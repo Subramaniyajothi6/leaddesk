@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Teams and people</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F1F1E;background:#F4F4F2}
+a{color:#1F1F1E}a:hover{color:#000}
+.nav a{display:block;padding:10px 12px;border-radius:6px;text-decoration:none;font-size:14px;color:#1F1F1E}
+.nav a.on{background:#E6E6E2;font-weight:600}
+.card{background:#fff;border:1px solid #D4D4D0;border-radius:10px;padding:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:6px;border:1px solid #9A9A95;background:#fff;color:#1F1F1E;font:inherit;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn.primary{background:#1F1F1E;border-color:#1F1F1E;color:#fff}
+.btn.sm{min-height:34px;padding:0 10px;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;font-weight:600;color:#5E5E5A;padding:8px;border-bottom:1px solid #D4D4D0}
+td{padding:10px 8px;border-bottom:1px solid #ECECE8;vertical-align:middle}
+.tag{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid #9A9A95;font-size:12px}
+select,input{font:inherit}
+.proto{flex:1 1 100%;box-sizing:border-box;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:8px 16px;background:#1F1F1E;color:#F4F4F2;font-size:13px}
+.proto a{color:#F4F4F2;text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid #5E5E5A}
+.proto a.on{background:#F4F4F2;color:#1F1F1E;border-color:#F4F4F2;font-weight:600}
+.proto a:hover{border-color:#F4F4F2}
+.soon{display:block;padding:10px 12px;font-size:14px;color:#6B6B66}
+.soon small{font-size:11px;margin-left:6px;padding:1px 6px;border:1px solid #BDBDB8;border-radius:999px}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif">
+  <div class="proto" role="navigation" aria-label="Prototype">
+    <b style="margin-right: 4px">Wireframe prototype</b><span style="color: #BDBDB8">View as</span>
+    <a href="AdminDashboard.dc.html" class="on" aria-current="true">Admin</a>
+    <a href="TLDashboard.dc.html">Team Lead</a>
+    <a href="BDEToday.dc.html">BDE</a>
+    <span style="flex: 1 1 auto"></span>
+    <a href="Main.dc.html">Screen map</a>
+  </div>
+  <nav class="nav" aria-label="Admin menu" style="flex: 1 1 200px; max-width: 240px; box-sizing: border-box; background: #fff; border-right: 1px solid #D4D4D0; padding: 20px 12px; display: flex; flex-direction: column; gap: 2px">
+    <div style="font-weight: 700; font-size: 16px; padding: 4px 12px 16px">[COMPANY LOGO]</div>
+    <a href="AdminDashboard.dc.html">Dashboard</a>
+    <span class="soon" title="Screen not drawn yet">Leads<small>soon</small></span>
+    <a href="UploadLeads.dc.html">Upload</a>
+    <a href="AllocateTeams.dc.html">Allocation</a>
+    <a class="on" href="TeamsPeople.dc.html" aria-current="page">Teams &amp; people</a>
+    <span class="soon" title="Screen not drawn yet">Attendance<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Follow-ups<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Reports<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Leaderboard<small>soon</small></span>
+    <a href="FinanceDashboard.dc.html">Finance</a>
+    <a href="Settings.dc.html">Settings</a>
+    <span class="soon" title="Screen not drawn yet">Audit log<small>soon</small></span>
+  </nav>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 32px; display: flex; flex-direction: column; gap: 20px">
+    <header style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between">
+      <h1 style="margin: 0; font-size: 24px">Teams &amp; people</h1>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <button type="button" class="btn">New team</button>
+        <button type="button" class="btn primary">Add person</button>
+      </div>
+    </header>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+      <section aria-labelledby="tm" class="card" style="flex: 1 1 260px; max-width: 320px; display: flex; flex-direction: column; gap: 8px">
+        <h2 id="tm" style="margin: 0 0 4px; font-size: 15px">Teams</h2>
+        <a href="#" style="display: block; text-decoration: none; padding: 12px; border-radius: 8px; border: 1px solid #1F1F1E; background: #F4F4F2"><b>Team A</b><br><span style="font-size: 13px; color: #5E5E5A">Lead: Rahul S · 10 BDEs</span></a>
+        <a href="#" style="display: block; text-decoration: none; padding: 12px; border-radius: 8px; border: 1px solid #D4D4D0"><b>Team B</b><br><span style="font-size: 13px; color: #5E5E5A">Lead: Divya M · 9 BDEs</span></a>
+        <a href="#" style="display: block; text-decoration: none; padding: 12px; border-radius: 8px; border: 1px solid #D4D4D0"><b>Team C</b> <span class="tag">No Team Lead</span><br><span style="font-size: 13px; color: #5E5E5A">9 BDEs</span></a>
+        <a href="#" style="display: block; text-decoration: none; padding: 12px; border-radius: 8px; border: 1px dashed #D4D4D0; color: #5E5E5A"><b>Inactive teams (1)</b></a>
+      </section>
+
+      <section aria-labelledby="ta" class="card" style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between">
+          <div>
+            <h2 id="ta" style="margin: 0; font-size: 18px">Team A</h2>
+            <p style="margin: 4px 0 0; font-size: 13px; color: #5E5E5A">Team Lead: <b>Rahul S</b> (also leads Team D) · Auto-give leads to BDEs: Off · Default cap: 50</p>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <button type="button" class="btn sm">Change Team Lead</button>
+            <button type="button" class="btn sm">Team settings</button>
+          </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+          <input type="search" aria-label="Search people in Team A" placeholder="Search name or code" style="min-height: 40px; flex: 1 1 220px; border: 1px solid #9A9A95; border-radius: 6px; padding: 0 10px">
+          <label style="font-size: 13px">Show <select style="min-height: 40px; border: 1px solid #9A9A95; border-radius: 6px"><option>Active</option><option>Inactive</option><option>Exited</option><option>All</option></select></label>
+        </div>
+        <div style="overflow-x: auto">
+          <table>
+            <thead><tr><th scope="col">BDE</th><th scope="col">Status</th><th scope="col">Today</th><th scope="col">Open leads / cap</th><th scope="col">Joined</th><th scope="col"><span style="position: absolute; left: -9999px">Actions</span></th></tr></thead>
+            <tbody>
+              <tr><td><b>Priya K</b><br><span style="font-size: 12px; color: #5E5E5A">BDE-014</span></td><td><span class="tag">Active</span></td><td>Present 09:22</td><td>38 / 50</td><td>02 Jun 2026</td><td><button type="button" class="btn sm" aria-label="Actions for Priya K">Move · Deactivate ▾</button></td></tr>
+              <tr><td><b>Arun V</b><br><span style="font-size: 12px; color: #5E5E5A">BDE-021</span></td><td><span class="tag">Active</span></td><td>Late 09:58</td><td>50 / 50 (cap)</td><td>15 Jul 2026</td><td><button type="button" class="btn sm" aria-label="Actions for Arun V">Move · Deactivate ▾</button></td></tr>
+              <tr><td><b>Kavin T</b><br><span style="font-size: 12px; color: #5E5E5A">BDE-030</span></td><td><span class="tag">Active</span></td><td>Absent</td><td>22 / 50</td><td>01 Sep 2026</td><td><button type="button" class="btn sm" aria-label="Actions for Kavin T">Move · Deactivate ▾</button></td></tr>
+              <tr style="color: #5E5E5A"><td><b>Sanjay P</b><br><span style="font-size: 12px">BDE-008</span></td><td><span class="tag">Inactive</span></td><td>—</td><td>6 open, unattended</td><td>10 Mar 2026</td><td><button type="button" class="btn sm" aria-label="Actions for Sanjay P">Reactivate ▾</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <section aria-labelledby="dlg" style="border: 2px solid #1F1F1E; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 12px; max-width: 560px">
+          <p style="margin: 0; font-size: 12px; color: #5E5E5A; text-transform: uppercase; letter-spacing: .04em">Dialog (opens from "Deactivate")</p>
+          <h3 id="dlg" style="margin: 0; font-size: 16px">Deactivate Kavin T?</h3>
+          <p style="margin: 0; font-size: 14px">Kavin has <b>22 open leads</b> and <b>4 follow-ups</b> scheduled.</p>
+          <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 14px">
+            <legend style="font-size: 13px; color: #5E5E5A; margin-bottom: 4px">What happens to the open leads?</legend>
+            <label><input type="radio" name="o" checked> Return to Team A pool now (follow-ups go with them)</label>
+            <label><input type="radio" name="o"> Keep with Kavin (temporary leave, will come back)</label>
+          </fieldset>
+          <label style="font-size: 13px">Type<br><select style="margin-top: 4px; min-height: 40px; border: 1px solid #9A9A95; border-radius: 6px"><option>Inactive (temporary)</option><option>Exited (left the company)</option></select></label>
+          <label style="font-size: 13px">Reason<br><input type="text" placeholder="Required" style="margin-top: 4px; width: 100%; box-sizing: border-box; min-height: 40px; border: 1px solid #9A9A95; border-radius: 6px; padding: 0 10px"></label>
+          <div style="display: flex; gap: 8px; justify-content: flex-end"><button type="button" class="btn">Cancel</button><button type="button" class="btn primary">Deactivate</button></div>
+        </section>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

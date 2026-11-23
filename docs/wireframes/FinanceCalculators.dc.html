@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finance calculators</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F1F1E;background:#F4F4F2}
+a{color:#1F1F1E}a:hover{color:#000}
+.nav a{display:block;padding:10px 12px;border-radius:6px;text-decoration:none;font-size:14px;color:#1F1F1E}
+.nav a.on{background:#E6E6E2;font-weight:600}
+.nav a.sub{padding-left:28px;font-size:13px}
+.card{background:#fff;border:1px solid #D4D4D0;border-radius:10px;padding:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:6px;border:1px solid #9A9A95;background:#fff;color:#1F1F1E;font:inherit;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn.primary{background:#1F1F1E;border-color:#1F1F1E;color:#fff}
+.tabbtn{min-height:44px;padding:0 14px;border:0;background:none;font:inherit;font-size:14px;cursor:pointer;color:#1F1F1E}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;font-weight:600;color:#5E5E5A;padding:8px;border-bottom:1px solid #D4D4D0}
+td{padding:10px 8px;border-bottom:1px solid #ECECE8}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.in{margin-top:4px;width:100%;box-sizing:border-box;min-height:44px;border:1px solid #9A9A95;border-radius:6px;padding:0 10px;font:inherit;font-size:16px}
+.line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #ECECE8;font-size:15px}
+select,input{font:inherit}
+.proto{flex:1 1 100%;box-sizing:border-box;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:8px 16px;background:#1F1F1E;color:#F4F4F2;font-size:13px}
+.proto a{color:#F4F4F2;text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid #5E5E5A}
+.proto a.on{background:#F4F4F2;color:#1F1F1E;border-color:#F4F4F2;font-weight:600}
+.proto a:hover{border-color:#F4F4F2}
+.soon{display:block;padding:10px 12px;font-size:14px;color:#6B6B66}
+.soon small{font-size:11px;margin-left:6px;padding:1px 6px;border:1px solid #BDBDB8;border-radius:999px}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif">
+  <div class="proto" role="navigation" aria-label="Prototype">
+    <b style="margin-right: 4px">Wireframe prototype</b><span style="color: #BDBDB8">View as</span>
+    <a href="AdminDashboard.dc.html" class="on" aria-current="true">Admin</a>
+    <a href="TLDashboard.dc.html">Team Lead</a>
+    <a href="BDEToday.dc.html">BDE</a>
+    <span style="flex: 1 1 auto"></span>
+    <a href="Main.dc.html">Screen map</a>
+  </div>
+  <nav class="nav" aria-label="Admin menu" style="flex: 1 1 200px; max-width: 240px; box-sizing: border-box; background: #fff; border-right: 1px solid #D4D4D0; padding: 20px 12px; display: flex; flex-direction: column; gap: 2px">
+    <div style="font-weight: 700; font-size: 16px; padding: 4px 12px 16px">[COMPANY LOGO]</div>
+    <a href="AdminDashboard.dc.html">Dashboard</a>
+    <span class="soon" title="Screen not drawn yet">Leads<small>soon</small></span>
+    <a href="UploadLeads.dc.html">Upload</a>
+    <a href="AllocateTeams.dc.html">Allocation</a>
+    <a href="TeamsPeople.dc.html">Teams &amp; people</a>
+    <span class="soon" title="Screen not drawn yet">Attendance<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Follow-ups<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Reports<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Leaderboard<small>soon</small></span>
+    <a href="FinanceDashboard.dc.html" style="font-weight: 600">Finance</a>
+    <a class="sub" href="FinanceDashboard.dc.html">Overview</a>
+    <span class="soon" style="padding-left: 28px; font-size: 13px" title="Screen not drawn yet">Transactions<small>soon</small></span>
+    <a class="sub on" href="FinanceCalculators.dc.html" aria-current="page">Calculators &amp; history</a>
+    <a href="Settings.dc.html">Settings</a>
+    <span class="soon" title="Screen not drawn yet">Audit log<small>soon</small></span>
+  </nav>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 32px; display: flex; flex-direction: column; gap: 20px">
+    <h1 style="margin: 0; font-size: 24px">Calculators &amp; history</h1>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 18px">
+      <div role="tablist" aria-label="Calculator" style="display: flex; flex-wrap: wrap; border-bottom: 1px solid #D4D4D0">
+        <button role="tab" aria-selected="false" class="tabbtn">Revenue share</button>
+        <button role="tab" aria-selected="true" class="tabbtn" style="font-weight: 700; border-bottom: 3px solid #1F1F1E">Profit share</button>
+        <button role="tab" aria-selected="false" class="tabbtn">Percent of</button>
+        <button role="tab" aria-selected="false" class="tabbtn">Discount</button>
+        <button role="tab" aria-selected="false" class="tabbtn">Increase / decrease</button>
+        <button role="tab" aria-selected="false" class="tabbtn">Growth</button>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+        <form style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 14px">
+          <label style="font-size: 13px">Total investment (₹)<input class="in" type="text" inputmode="decimal" value="20,000"></label>
+          <label style="font-size: 13px">Total revenue (₹)<input class="in" type="text" inputmode="decimal" value="50,000"></label>
+          <label style="font-size: 13px">Company share %<input class="in" type="text" inputmode="decimal" value="30"><span style="font-size: 12px; color: #5E5E5A">From settings. Remaining is 70% (always adds to 100).</span></label>
+          <label style="font-size: 13px">Link to (optional)<select class="in"><option>Nothing: one-off calculation</option><option>A period (e.g. October)</option><option>A transaction</option></select></label>
+        </form>
+
+        <section aria-labelledby="res" style="flex: 1 1 340px; border: 2px solid #1F1F1E; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 4px">
+          <h2 id="res" style="margin: 0 0 6px; font-size: 16px">Result</h2>
+          <div class="line"><span>Profit = 50,000 − 20,000</span><b class="num">₹30,000</b></div>
+          <div class="line"><span>Company share = 30% of profit</span><b class="num">₹9,000</b></div>
+          <div class="line" style="border-bottom: 0"><span>Remaining = profit − company share</span><b class="num">₹21,000</b></div>
+          <p style="margin: 8px 0 0; font-size: 13px; color: #5E5E5A">If revenue is less than or equal to investment: "Loss of ₹X, no profit to share".</p>
+          <div style="display: flex; gap: 8px; margin-top: 10px"><button type="button" class="btn primary">Save to history</button><button type="button" class="btn">Clear</button></div>
+        </section>
+      </div>
+    </section>
+
+    <section aria-labelledby="hi" class="card" style="display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center">
+        <h2 id="hi" style="margin: 0; font-size: 16px">History</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <select aria-label="Filter by type" style="min-height: 40px; border: 1px solid #9A9A95; border-radius: 6px"><option>All types</option></select>
+          <select aria-label="Filter by date" style="min-height: 40px; border: 1px solid #9A9A95; border-radius: 6px"><option>This month</option></select>
+          <button type="button" class="btn">Export</button>
+        </div>
+      </div>
+      <div style="overflow-x: auto">
+        <table>
+          <thead><tr><th scope="col">When</th><th scope="col">Type</th><th scope="col" class="num">Amount</th><th scope="col" class="num">%</th><th scope="col" class="num">Result</th><th scope="col" class="num">Remaining</th><th scope="col">By</th><th scope="col">Linked to</th></tr></thead>
+          <tbody>
+            <tr><td>18 Nov 12:40</td><td>Profit share</td><td class="num">₹30,000 profit</td><td class="num">30%</td><td class="num">₹9,000</td><td class="num">₹21,000</td><td>Admin</td><td>—</td></tr>
+            <tr><td>17 Nov 18:02</td><td>Revenue share</td><td class="num">₹25,000</td><td class="num">30%</td><td class="num">₹7,500</td><td class="num">₹17,500</td><td>System</td><td><a href="#">Payment · Karthik Raj</a></td></tr>
+            <tr><td>15 Nov 11:15</td><td>Discount</td><td class="num">₹10,000</td><td class="num">15%</td><td class="num">₹1,500 off</td><td class="num">₹8,500</td><td>Admin</td><td>—</td></tr>
+            <tr><td>14 Nov 09:50</td><td>Growth</td><td class="num">₹80,000 → ₹1,00,000</td><td class="num">—</td><td class="num">+25%</td><td class="num">—</td><td>Admin</td><td>Oct vs Sep</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin: 0; font-size: 13px; color: #5E5E5A">History can't be edited or deleted. A wrong calculation is simply done again.</p>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1040}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

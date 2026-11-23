@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team Table Row Spec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;600;700&display=swap">
+<style>
+/* Layout: one Apple-style dimensional drawing sheet (notes · section · plan · tables · details · layouts · title block), black on white, single light theme by design. */
+:root{--paper:#ececec;--sheet:#ffffff;--ink:#111;--ink2:#444;--ink3:#7a7a7a;--fill:#f3f3f3;--fill2:#e6e6e6;--f:'Arimo','Helvetica Neue',Helvetica,Arial,sans-serif;color-scheme:light}
+body{background:var(--paper);color:var(--ink);font-family:var(--f)}
+.wrap{max-width:1760px;margin:0 auto;padding-block:24px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.scroll{overflow-x:auto;background:var(--sheet);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+svg{display:block;width:100%;min-width:1100px;height:auto}
+.tb{background:var(--sheet);border:1.5px solid var(--ink);display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;margin-bottom:24px}
+.tb>div{border-right:1px solid #d0d0d0;border-bottom:1px solid #d0d0d0;padding:10px 12px;min-width:0}
+.tb .big{grid-row:span 2;display:flex;flex-direction:column;justify-content:space-between;gap:12px}
+.tb h1{font-size:clamp(26px,4vw,40px);line-height:1;margin:0;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.lbl{text-transform:uppercase;letter-spacing:.08em;font-size:12px;color:var(--ink3);font-weight:600}
+.tb .v{font-size:13px;margin-top:2px;font-variant-numeric:tabular-nums}
+.tb .notes{grid-column:1/-1;border-right:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:6px 24px;font-size:13px;color:var(--ink2)}
+.tb .notes ol{margin:4px 0 0;padding-left:18px}
+.tb .figs{grid-column:1/-1;border-right:0;border-bottom:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px 18px}
+.tb .figs .v{font-size:17px}
+@media (max-width:640px){.tb{grid-template-columns:1fr 1fr}.tb .big{grid-column:1/-1;grid-row:auto}}
+.sheetwrap{margin-bottom:28px}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink2);padding:10px 2px 0}
+.foot b{font-weight:600;color:var(--ink)}
+/* drawing */
+.u{font-family:var(--f);text-transform:uppercase;letter-spacing:.07em}
+.border{fill:none;stroke:var(--ink);stroke-width:1.2}
+.obj{fill:var(--sheet);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
+.well{fill:var(--fill);stroke:var(--ink);stroke-width:1}
+.slot{fill:none;stroke:var(--ink2);stroke-width:.8;stroke-dasharray:4 3}
+.hug{fill:var(--fill2);stroke:var(--ink);stroke-width:1}
+.thin{fill:none;stroke:var(--ink);stroke-width:.8}
+.ph{fill:none;stroke:var(--ink3);stroke-width:.8;stroke-dasharray:14 3 3 3}
+.cl{fill:none;stroke:var(--ink3);stroke-width:.7;stroke-dasharray:16 3 2 3}
+.cut{stroke:var(--ink);stroke-width:2}
+.dl{stroke:var(--ink);stroke-width:.7;fill:none}
+.ext{stroke:var(--ink);stroke-width:.55;fill:none}
+.arrow{fill:var(--ink)}
+.hl{stroke:var(--ink2);stroke-width:.7}
+.hs{stroke:var(--ink);stroke-width:.8}
+.env{fill:none;stroke:var(--ink);stroke-width:.8;stroke-dasharray:10 3 2 3}
+.dt{font:400 11px var(--f);fill:var(--ink);paint-order:stroke;stroke:var(--sheet);stroke-width:4px;stroke-linejoin:round}
+.dts{font:400 9.5px var(--f);fill:var(--ink2);letter-spacing:.06em;text-transform:uppercase;paint-order:stroke;stroke:var(--sheet);stroke-width:3px}
+.sl{font:400 9px var(--f);fill:var(--ink2);letter-spacing:.08em;text-transform:uppercase}
+.nt{font:400 11.5px var(--f);fill:var(--ink);letter-spacing:.06em;text-transform:uppercase}
+.nth{font:700 13px var(--f);fill:var(--ink);letter-spacing:.06em}
+.vt{font:400 12px var(--f);fill:var(--ink);letter-spacing:.1em;text-transform:uppercase}
+.vtb{font:400 20px var(--f);fill:var(--ink);letter-spacing:.06em}
+.nb{fill:var(--sheet);stroke:var(--ink);stroke-width:.9}
+.nbt{font:400 9.5px var(--f);fill:var(--ink)}
+.lead{stroke:var(--ink);stroke-width:.7;fill:none}
+.dot{fill:var(--ink)}
+.th{font:400 10.5px var(--f);fill:var(--ink);letter-spacing:.05em;text-transform:uppercase}
+.tc{font:400 10.5px var(--f);fill:var(--ink)}
+.tbk{font:400 7px var(--f);fill:var(--ink2);letter-spacing:.04em;text-transform:uppercase}
+.tbt{font:700 15px var(--f);fill:var(--ink)}
+.tbv{font:400 17px var(--f);fill:var(--ink);letter-spacing:.06em}
+
+/* title block restyled to match the drawing sheet: thin black rules, plain caps lettering */
+.tb{border:1.2px solid var(--ink);border-radius:16px;overflow:hidden}
+.tb>div{border-right:.8px solid var(--ink);border-bottom:.8px solid var(--ink);padding:10px 14px}
+.tb>div:nth-child(4),.tb>div:nth-child(7){border-right:0}
+.tb .lbl{font-size:9.5px;font-weight:400;letter-spacing:.06em;color:var(--ink2)}
+.tb h1{font-weight:400;letter-spacing:.1em;font-size:clamp(28px,4vw,44px);margin-top:4px}
+.tb .v{font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink)}
+.tb .big .v{font-size:11px;color:var(--ink2);line-height:1.6}
+.tb .notes{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink);line-height:1.9}
+.tb .notes ol{padding-left:20px}
+.tb .nh{font-weight:700;font-size:13px;letter-spacing:.06em}
+.tb .nh span{font-weight:400;font-size:11.5px;margin-left:6px}
+.tb .figs>div{border-left:.8px solid var(--ink);padding-left:14px}
+.tb .figs>div:first-child{border-left:0;padding-left:0}
+.tb .figs .v{font-size:18px;letter-spacing:.06em;text-transform:none;margin-top:4px}
+.foot{font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.foot b{font-weight:700}
+
+body{margin:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="tb">
+    <div class="big">
+      <div><div class="lbl">UI component · dimensional drawing</div><h1>Team table row</h1></div>
+      <div class="v" style="color:var(--ink2)">Architecture of one row in the Team Lead's BDE table, with the load cell, status chip and avatar stack. Content is out of scope.</div>
+    </div>
+    <div><div class="lbl">Dwg no.</div><div class="v">UI-TROW-001</div></div>
+    <div><div class="lbl">Rev</div><div class="v">A · 2026-11-19</div></div>
+    <div><div class="lbl">Sheets</div><div class="v">1</div></div>
+    <div><div class="lbl">Units</div><div class="v">CSS px @ 1×</div></div>
+    <div><div class="lbl">Scale</div><div class="v">1:1 unless noted</div></div>
+    <div><div class="lbl">Source</div><div class="v">docs/design-directions.html · direction B tokens</div></div>
+    <div class="notes">
+      <div><span class="nh">NOTES:<span>(UNLESS OTHERWISE SPECIFIED)</span></span><ol>
+        <li>Do not scale from screen. Read the numbers.</li>
+        <li>All dimensions in CSS px at 1×, taken from the prototype stylesheet.</li>
+        <li>Slots are placeholders. Names, numbers and copy are not part of the drawing.</li></ol></div>
+      <div><span class="nh" aria-hidden="true">&nbsp;</span><ol start="4">
+        <li>Every dimension is a variable. Values and formulas are in the variable tables.</li>
+        <li>HUG = sized by content · FLEX = takes remaining space · FILL = full width of parent.</li>
+        <li>Other design directions change token values only, never the structure. [TBD] = not yet defined.</li></ol></div>
+    </div>
+    <div class="figs">
+      <div><div class="lbl">S1 · row-pad-y</div><div class="v">11</div></div>
+      <div><div class="lbl">S2 · cell-pad-x</div><div class="v">8</div></div>
+      <div><div class="lbl">Z1 · avatar</div><div class="v">30</div></div>
+      <div><div class="lbl">H1 · bar-h</div><div class="v">6</div></div>
+      <div><div class="lbl">W1 · load-min</div><div class="v">140</div></div>
+      <div><div class="lbl">H2 · row-h</div><div class="v">max(Z1, stack) + 2·S1</div></div>
+      <div><div class="lbl">TW · table-min</div><div class="v">700</div></div>
+    </div>
+  </header>
+  <div class="sheetwrap"><div class="scroll"><svg id="sh1" viewBox="0 0 1700 1060" role="img" aria-label="Single sheet: plan view of a table row with variable dimensions, load cell states, chip and avatar details, exploded layer view, variable tables"></svg></div>
+  <div class="foot"><span>2026-11-19 &nbsp;|&nbsp; UI component reference</span><span><b>Team table row, architecture</b> &nbsp;|&nbsp; 1</span></div></div>
+</div>
+<script>
+(function(){
+const NS='http://www.w3.org/2000/svg';let sv,A,HAT,uid=0;
+function mk(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)if(a[k]!=null)e.setAttribute(k,a[k]);(p||sv).appendChild(e);return e}
+function tx(x,y,s,c,a,p){const t=mk('text',Object.assign({x:x,y:y,class:c||'dt'},a||{}),p);t.textContent=s;return t}
+function begin(id){sv=document.getElementById(id);sv.innerHTML='';const n=uid++;const d=mk('defs',{});const m=mk('marker',{id:'ar'+n,viewBox:'0 0 10 10',refX:10,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse',markerUnits:'userSpaceOnUse'},d);mk('path',{d:'M0,1.7 L10,5 L0,8.3 z',class:'arrow'},m);
+ const pt=mk('pattern',{id:'hat'+n,width:5,height:5,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'},d);mk('line',{x1:0,y1:0,x2:0,y2:5,class:'hl'},pt);A='url(#ar'+n+')';HAT='url(#hat'+n+')';rr(20,20,1660,1020,16,'border')}
+
+/* ---- kit ---- */
+function dimH(x1,x2,y,e1,e2,l,o){o=o||{};[[x1,e1],[x2,e2]].forEach(([x,e])=>{if(e==null)return;const s=Math.sign(y-e)||1;mk('line',{x1:x,y1:e+s*3,x2:x,y2:y+s*5,class:'ext'})});
+ if(x2-x1>=28)mk('line',{x1:x1,y1:y,x2:x2,y2:y,class:'dl','marker-start':A,'marker-end':A});else{mk('line',{x1:x1-13,y1:y,x2:x1,y2:y,class:'dl','marker-end':A});mk('line',{x1:x2+13,y1:y,x2:x2,y2:y,class:'dl','marker-end':A});mk('line',{x1:x1,y1:y,x2:x2,y2:y,class:'dl'})}
+ tx((x1+x2)/2+(o.dx||0),(o.below?y+13:y-4)+(o.dy||0),l,o.c||'dt',{'text-anchor':'middle'})}
+function dimV(y1,y2,x,e1,e2,l,o){o=o||{};[[y1,e1],[y2,e2]].forEach(([y,e])=>{if(e==null)return;const s=Math.sign(x-e)||1;mk('line',{x1:e+s*3,y1:y,x2:x+s*5,y2:y,class:'ext'})});
+ if(y2-y1>=28)mk('line',{x1:x,y1:y1,x2:x,y2:y2,class:'dl','marker-start':A,'marker-end':A});else{mk('line',{x1:x,y1:y1-13,x2:x,y2:y1,class:'dl','marker-end':A});mk('line',{x1:x,y1:y2+13,x2:x,y2:y2,class:'dl','marker-end':A});mk('line',{x1:x,y1:y1,x2:x,y2:y2,class:'dl'})}
+ const c=(y1+y2)/2;if(o.side){const r=o.side==='r';tx(r?x+6:x-6,c+4,l,o.c||'dt',{'text-anchor':r?'start':'end'})}else tx(x-5,c,l,o.c||'dt',{'text-anchor':'middle',transform:'rotate(-90 '+(x-5)+' '+c+')'})}
+function callout(px,py,ex,ey,l,dir,c){const s=dir||(ex>=px?1:-1);mk('circle',{cx:px,cy:py,r:1.8,class:'dot'});mk('polyline',{points:px+','+py+' '+ex+','+ey+' '+(ex+s*10)+','+ey,class:'lead'});tx(ex+s*14,ey+4,l,c||'dt',{'text-anchor':s>0?'start':'end'})}
+function rad(cx,cy,r,c,l,L){const sx=c.includes('l')?-1:1,sy=c.includes('t')?-1:1;const ox=cx-sx*r,oy=cy-sy*r;const px=ox+sx*r*Math.SQRT1_2,py=oy+sy*r*Math.SQRT1_2;callout(px,py,px+sx*L,py+sy*L,l,sx)}
+function nb(x,y,n){mk('rect',{x:x-6,y:y-6,width:12,height:12,class:'nb'});tx(x,y+3.5,String(n),'nbt',{'text-anchor':'middle'})}
+function rr(x,y,w,h,r,c){return mk('rect',{x:x,y:y,width:w,height:h,rx:r,class:c})}
+function slotLabel(x,y,w,h,l,al){tx(al==='l'?x+6:x+w/2,y+h/2+3.2,l,'sl',{'text-anchor':al==='l'?'start':'middle'})}
+function title(x,y,t,s){tx(x,y,t,'vt',{'text-anchor':'middle'});if(s)tx(x,y+14,s,'dts',{'text-anchor':'middle'})}
+function notes(list,extra){const NX=50,NY=58;tx(NX,NY,'NOTES:','nth');tx(NX+62,NY,'(UNLESS OTHERWISE SPECIFIED)','nt');
+ list.forEach(([n,t],i)=>{const y=NY+30+i*24;if(n){nb(NX+6,y-4,n);tx(NX+22,y,t,'nt')}else tx(NX,y,t,'nt')})}
+function table(x,y,ttl,rows){const ws=[40,88,96],rh=17;tx(x,y-8,ttl,'vt');
+ const all=[['Code','Variable','Value']].concat(rows);all.forEach((r,i)=>{let cx2=x;r.forEach((c,j)=>{mk('rect',{x:cx2,y:y+i*rh,width:ws[j],height:rh,class:'thin'});tx(cx2+(j?ws[j]/2:6),y+i*rh+12,c,i?'tc':'th',{'text-anchor':j?'middle':'start'});cx2+=ws[j]})});return y+all.length*rh+36}
+function detailRef(cx,cy,r,lbl,lx,ly){mk('circle',{cx:cx,cy:cy,r:r,class:'ph'});const a=Math.atan2(ly-cy,lx-cx);mk('line',{x1:cx+r*Math.cos(a),y1:cy+r*Math.sin(a),x2:lx,y2:ly,class:'lead'});tx(lx+(lx<cx?-4:4),ly+4,lbl,'dts',{'text-anchor':lx<cx?'end':'start'})}
+/* ---- data (from docs/design-directions.html, direction B) ---- */
+const RW=880,RH=59; /* reference row: W REF, H = max(Z1,stack)+2*S1 measured REF */
+const VAR={
+ spacing:[['S1','row-pad-y','11'],['S2','cell-pad-x','8'],['S3','who-gap','10'],['S4','bar-gap','5'],['S5','chip-pad-x','10'],['S6','chip-pad-y','3'],['S7','chip-gap','6'],['S8','card-pad','20']],
+ size:[['B','row-rule','1'],['Z1','avatar','30'],['Z2','chip-dot','6'],['H1','bar-h','6'],['W1','load-min','140'],['TW','table-min','700'],['H2','row-h','max(Z1,stk)+2·S1'],['T1','touch-min','[TBD]']],
+ radius:[['R1','r-card','14'],['R2','r-bar','H1 ÷ 2 = 3'],['R3','r-chip','h ÷ 2'],['R4','r-avatar','Z1 ÷ 2 = 15']],
+ state:[['F','bar-fill','open ÷ max'],['ST1','normal','F < 0.8'],['ST2','warn','0.8 ≤ F < 1'],['ST3','full','F = 1 · text']]
+};
+/* reference column edges (FLEX, auto table layout) */
+const C=[0,200,370,500,650,770,880];
+
+function rowPlan(ox,oy,k){const X=v=>ox+v*k,Y=v=>oy+v*k;
+ mk('rect',{x:X(0),y:Y(0),width:RW*k,height:RH*k,class:'obj'});
+ mk('line',{x1:X(0),y1:Y(RH),x2:X(RW),y2:Y(RH),class:'cut'});
+ C.slice(1,-1).forEach(c=>mk('line',{x1:X(c),y1:Y(0),x2:X(c),y2:Y(RH),class:'ph'}));
+ const sl=(x,y,w,h,r,c,l)=>{mk('rect',{x:X(x),y:Y(y),width:w*k,height:h*k,rx:r*k,class:c});if(l)slotLabel(X(x),Y(y),w*k,h*k,l,'l')};
+ /* who cell */
+ mk('circle',{cx:X(8+15),cy:Y(29.5),r:15*k,class:'hug'});
+ sl(48,11,120,20,2,'slot','Name · button');sl(48,33,96,15,2,'slot','Status slot');
+ /* load cell */
+ sl(208,12,140,19,2,'slot','Value · open/max');
+ mk('rect',{x:X(208),y:Y(36),width:154*k,height:6*k,rx:3*k,class:'well'});
+ mk('rect',{x:X(208),y:Y(36),width:102*k,height:6*k,rx:3*k,class:'hug'});
+ /* other cells */
+ sl(378,20,114,19,2,'slot','Value');
+ sl(508,20,134,19,2,'slot','Value');
+ sl(658,20,80,19,2,'slot','Value slot');mk('rect',{x:X(742),y:Y(22),width:14*k,height:15*k,class:'hug'});
+ mk('rect',{x:X(778),y:Y(18.5),width:74*k,height:22*k,rx:11*k,class:'hug'});slotLabel(X(778),Y(18.5),74*k,22*k,'Chip · hug');
+ mk('line',{x1:X(-16),y1:Y(29.5),x2:X(RW+16),y2:Y(29.5),class:'cl'});
+ return {X,Y}}
+
+begin('sh1');
+notes([[1,'ROW HEIGHT HUGS THE TALLEST CELL: H2 = MAX(Z1, NAME + STATUS) + 2·S1.'],[2,'LOAD BAR FILL F = OPEN ÷ MAX, WIDTH FILLS THE CELL (MIN W1).'],[3,'STATE NEVER BY TONE ALONE: FULL ALSO PRINTS "AT MAX", TREND PRINTS ▲ / ▼.'],[4,'BELOW TW THE TABLE SCROLLS INSIDE ITS CARD. THE PAGE NEVER SCROLLS SIDEWAYS.'],[5,'ALL NUMBERS USE TABULAR FIGURES SO COLUMNS ALIGN.'],[6,'NAME IS A BUTTON THAT OPENS THE DETAIL PANEL. TOUCH HIT AREA T1 = [TBD].'],[7,'COLUMN WIDTHS FLEX WITH CONTENT. REFERENCE WIDTHS ONLY.']]);
+
+/* ===== plan view ===== */
+{const k=0.95,PX=470,PY=340;const {X,Y}=rowPlan(PX,PY,k);
+ nb(X(40),Y(-8),6);nb(X(190),Y(52),1);nb(X(364),Y(39),2);nb(X(764),Y(14),3);nb(X(640),Y(14),5);
+ const ty=Y(-34);
+ dimH(X(0),X(8),ty,Y(0),Y(14),'S2',{dx:-10});dimH(X(8),X(38),ty,null,Y(14),'Z1');dimH(X(38),X(48),ty,null,Y(11),'S3',{dx:10});dimH(X(48),X(200),ty,null,null,'FLEX',{c:'dts'});
+ dimH(X(200),X(208),ty,Y(0),Y(12),'S2',{dx:-10});dimH(X(208),X(362),ty,null,Y(12),'FILL · MIN W1',{c:'dts'});dimH(X(362),X(370),ty,null,Y(0),'S2',{dx:10});
+ [[2,3,'FLEX'],[3,4,'FLEX'],[4,5,'FLEX'],[5,6,'HUG']].forEach(([a,b,l])=>dimH(X(C[a]),X(C[b]),ty,null,Y(0),l,{c:'dts'}));
+ dimH(X(0),X(RW),Y(-66),Y(-38),Y(-38),'W ≥ TW');tx(X(RW/2),Y(-84),'W = TABLE WIDTH · TW 700 MIN · REF 880','dts',{'text-anchor':'middle'});nb(X(RW/2+190),Y(-88),4);
+ const lx=X(-40);dimV(Y(0),Y(11),lx,X(0),X(0),'S1',{side:'l'});dimV(Y(11),Y(48),lx,null,X(48),'STACK',{side:'l',c:'dts'});dimV(Y(48),Y(59),lx,null,X(0),'S1',{side:'l'});
+ dimV(Y(0),Y(RH),X(-120),X(-48),X(-48),'H2 (REF 59)');
+ const rx=X(RW+18);dimV(Y(12),Y(31),rx,X(362),X(362),'VALUE',{side:'r',c:'dts'});dimV(Y(31),Y(36),rx,null,X(362),'S4',{side:'r'});dimV(Y(36),Y(42),rx,null,X(362),'H1',{side:'r'});
+ callout(X(23)-10,Y(29.5)+10,X(23)-50,Y(RH)+40,'R4 = Z1 ÷ 2',-1);
+ callout(X(852),Y(29.5),X(852)+40,Y(RH)+30,'R3 = h ÷ 2',1);
+ detailRef(X(285),Y(39),30,'DETAIL A',X(285)-70,Y(RH)+46);
+ detailRef(X(815),Y(29.5),46,'DETAIL B',X(815)-20,Y(RH)+70);
+ title(X(RW/2),Y(RH)+110,'Plan view · one row','Scale 0.95:1 · reference W = 880 · cells flex');}
+
+/* ===== exploded ===== */
+{const sc=.34,TX=420,TY=830,gap=50,a=.94*sc,b=.17*sc,c=-.34*sc,dd=.47*sc,TWD=900,THT=240;
+ const P=(x,y,z)=>[TX+a*x+c*y,TY+b*x+dd*y-z];
+ const G=z=>mk('g',{transform:'matrix('+a+','+b+','+c+','+dd+','+TX+','+(TY-z)+')'});
+ const R2=(g,x,y,w,h,r,cls,extra)=>mk('rect',Object.assign({x,y,width:w,height:h,rx:r,class:cls,'vector-effect':'non-scaling-stroke'},extra||{}),g);
+ const L2=(g,x1,y1,x2,y2,cls)=>mk('line',{x1,y1,x2,y2,class:cls,'vector-effect':'non-scaling-stroke'},g);
+ [[0,0],[TWD,0],[TWD,THT],[0,THT]].forEach(([x,y])=>{const p1=P(x,y,gap),p2=P(x,y,gap*4);mk('line',{x1:p1[0],y1:p1[1],x2:p2[0],y2:p2[1],class:'ph'})});
+ let g=G(0);R2(g,-20,-20,TWD+40,THT+40,0,'thin');
+ g=G(gap);R2(g,0,0,TWD,THT,14,'obj');
+ g=G(gap*2);R2(g,20,20,TWD-40,30,0,'well');[60,120,180].forEach(y=>L2(g,20,y+50,TWD-20,y+50,'thin'));
+ g=G(gap*3);R2(g,20,50,TWD-40,59,0,'hug');
+ g=G(gap*4);R2(g,28,58,30,30,15,'thin');R2(g,68,61,120,20,2,'slot');R2(g,228,62,140,19,2,'slot');R2(g,228,86,154,6,3,'thin');R2(g,798,68,74,22,11,'thin');
+ const LX=270;
+ [[0,[-20,THT+20],'L0 · Page','Background'],[gap,[0,THT],'L1 · Card','R1 · pad S8'],[gap*2,[20,THT-10],'L2 · Table','Header rule · row rules B'],[gap*3,[20,109],'L3 · Row','Hover fill · H2'],[gap*4,[28,88],'L4 · Slots','Avatar · name · load · chip']].forEach(([z,[x,y],t,st])=>{
+  const p1=P(x,y,z);mk('circle',{cx:p1[0],cy:p1[1],r:1.8,class:'dot'});mk('polyline',{points:p1[0]+','+p1[1]+' '+(LX+10)+','+p1[1]+' '+LX+','+p1[1],class:'lead'});
+  tx(LX-4,p1[1]-2,t,'vt',{'text-anchor':'end'});tx(LX-4,p1[1]+11,st,'dts',{'text-anchor':'end'})});
+ title(330,TY+150,'Exploded view','Axonometric · z gaps not to scale');}
+
+/* ===== Detail A · load cell states 3:1 ===== */
+{const K=2,AX=720,AY=650;const X=v=>AX+v*K;
+ [['ST1 · normal','F = 0.66',.66,'hug'],['ST2 · warn','F = 0.84',.84,'hug'],['ST3 · full','F = 1 · prints AT MAX',1,'hs']].forEach(([l,f,fr,cls],i)=>{
+  const y=AY+i*62;
+  mk('rect',{x:X(0),y:y,width:154*K,height:6*K,rx:3*K,class:'well'});
+  const e=mk('rect',{x:X(0),y:y,width:154*K*fr,height:6*K,rx:3*K,class:cls});if(cls==='hs')e.setAttribute('fill',HAT);
+  tx(X(0),y-8,l,'dts');tx(X(154)+10,y+13,f,'dt');});
+ dimV(AY,AY+18,X(-14),X(0),X(0),'H1',{side:'l'});
+ dimH(X(0),X(154),AY+3*62-22,AY+2*62+18,AY+2*62+18,'FILL · MIN W1',{below:true,c:'dts'});
+ rad(X(0),AY+18,3*K,'bl','R2',16);
+ title(X(77),AY+3*62+22,'Detail A · load cell states','Scale 2:1 · tone + text, never tone alone');}
+
+/* ===== Detail B · chip 3:1 ===== */
+{const K=3,BX=1130,BY=690,X=v=>BX+v*K,Y=v=>BY+v*K;
+ mk('rect',{x:X(0),y:Y(0),width:74*K,height:22*K,rx:11*K,class:'hug'});
+ mk('circle',{cx:X(10+3),cy:Y(11),r:3*K,class:'obj'});
+ mk('rect',{x:X(22),y:Y(3),width:42*K,height:16*K,rx:2,class:'slot'});slotLabel(X(22),Y(3),42*K,16*K,'Label','l');
+ const ty=Y(-10);dimH(X(0),X(10),ty,Y(0),Y(8),'S5',{dx:-8});dimH(X(10),X(16),ty,null,Y(8),'Z2',{dy:-12});dimH(X(16),X(22),ty,null,Y(3),'S7',{dx:8});dimH(X(22),X(64),ty,null,Y(3),'HUG',{c:'dts'});dimH(X(64),X(74),ty,null,Y(0),'S5',{dx:8});
+ dimV(Y(0),Y(3),X(82),X(74),X(64),'S6',{side:'r'});dimV(Y(3),Y(19),X(82),null,X(64),'TEXT',{side:'r',c:'dts'});dimV(Y(19),Y(22),X(82),null,X(74),'S6',{side:'r'});
+ rad(X(74),Y(22),11*K,'br','R3',18);
+ title(X(37),Y(22)+52,'Detail B · status chip','Scale 3:1 · pill, dot uses label tone');}
+
+/* ===== tables ===== */
+{let y=table(1426,86,'Spacing',VAR.spacing);y=table(1426,y,'Size',VAR.size);y=table(1426,y,'Radius',VAR.radius);table(1426,y,'Load states',VAR.state);}
+
+})();
+</script>
+</body>
+</html>

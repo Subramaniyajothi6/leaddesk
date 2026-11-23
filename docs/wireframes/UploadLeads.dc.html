@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Upload leads</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F1F1E;background:#F4F4F2}
+a{color:#1F1F1E}a:hover{color:#000}
+.nav a{display:block;padding:10px 12px;border-radius:6px;text-decoration:none;font-size:14px;color:#1F1F1E}
+.nav a.on{background:#E6E6E2;font-weight:600}
+.card{background:#fff;border:1px solid #D4D4D0;border-radius:10px;padding:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:6px;border:1px solid #9A9A95;background:#fff;color:#1F1F1E;font:inherit;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn.primary{background:#1F1F1E;border-color:#1F1F1E;color:#fff}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;font-weight:600;color:#5E5E5A;padding:8px;border-bottom:1px solid #D4D4D0}
+td{padding:10px 8px;border-bottom:1px solid #ECECE8;vertical-align:top}
+select,input{font:inherit}
+.proto{flex:1 1 100%;box-sizing:border-box;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:8px 16px;background:#1F1F1E;color:#F4F4F2;font-size:13px}
+.proto a{color:#F4F4F2;text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid #5E5E5A}
+.proto a.on{background:#F4F4F2;color:#1F1F1E;border-color:#F4F4F2;font-weight:600}
+.proto a:hover{border-color:#F4F4F2}
+.soon{display:block;padding:10px 12px;font-size:14px;color:#6B6B66}
+.soon small{font-size:11px;margin-left:6px;padding:1px 6px;border:1px solid #BDBDB8;border-radius:999px}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif">
+  <div class="proto" role="navigation" aria-label="Prototype">
+    <b style="margin-right: 4px">Wireframe prototype</b><span style="color: #BDBDB8">View as</span>
+    <a href="AdminDashboard.dc.html" class="on" aria-current="true">Admin</a>
+    <a href="TLDashboard.dc.html">Team Lead</a>
+    <a href="BDEToday.dc.html">BDE</a>
+    <span style="flex: 1 1 auto"></span>
+    <a href="Main.dc.html">Screen map</a>
+  </div>
+  <nav class="nav" aria-label="Admin menu" style="flex: 1 1 200px; max-width: 240px; box-sizing: border-box; background: #fff; border-right: 1px solid #D4D4D0; padding: 20px 12px; display: flex; flex-direction: column; gap: 2px">
+    <div style="font-weight: 700; font-size: 16px; padding: 4px 12px 16px">[COMPANY LOGO]</div>
+    <a href="AdminDashboard.dc.html">Dashboard</a>
+    <span class="soon" title="Screen not drawn yet">Leads<small>soon</small></span>
+    <a class="on" href="UploadLeads.dc.html" aria-current="page">Upload</a>
+    <a href="AllocateTeams.dc.html">Allocation</a>
+    <a href="TeamsPeople.dc.html">Teams &amp; people</a>
+    <span class="soon" title="Screen not drawn yet">Attendance<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Follow-ups<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Reports<small>soon</small></span>
+    <span class="soon" title="Screen not drawn yet">Leaderboard<small>soon</small></span>
+    <a href="FinanceDashboard.dc.html">Finance</a>
+    <a href="Settings.dc.html">Settings</a>
+    <span class="soon" title="Screen not drawn yet">Audit log<small>soon</small></span>
+  </nav>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 32px; display: flex; flex-direction: column; gap: 20px">
+    <header style="display: flex; flex-direction: column; gap: 4px">
+      <h1 style="margin: 0; font-size: 24px">Upload leads</h1>
+      <p style="margin: 0; font-size: 14px; color: #5E5E5A">Excel (.xlsx) or CSV, up to 10 MB. Nothing is saved until you press "Add leads".</p>
+    </header>
+
+    <ol aria-label="Steps" style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; font-size: 14px">
+      <li style="padding: 8px 14px; border-radius: 999px; border: 1px solid #9A9A95; background: #fff">✓ 1. Choose file</li>
+      <li style="padding: 8px 14px; border-radius: 999px; border: 1px solid #9A9A95; background: #fff">✓ 2. Match columns</li>
+      <li aria-current="step" style="padding: 8px 14px; border-radius: 999px; background: #1F1F1E; color: #fff; font-weight: 600">3. Check and add</li>
+    </ol>
+
+    <section class="card" aria-labelledby="file" style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between">
+      <div>
+        <h2 id="file" style="margin: 0; font-size: 15px">nov-campaign-leads.xlsx</h2>
+        <p style="margin: 4px 0 0; font-size: 13px; color: #5E5E5A">1,240 rows · columns matched: Name → Name, Mobile → Phone, Mail → Email, Course → Course (custom)</p>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+        <label style="font-size: 13px">Lead source <span style="color: #5E5E5A">(required)</span><br>
+          <select style="margin-top: 4px; min-height: 40px; min-width: 200px; border: 1px solid #9A9A95; border-radius: 6px; padding: 0 8px"><option>Campaign: Nov Instagram</option></select>
+        </label>
+        <a class="btn" href="#">Change matching</a>
+      </div>
+    </section>
+
+    <section aria-label="Check results" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+      <div class="card" style="border-color: #1F1F1E; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Ready to add</span><b style="font-size: 28px">1,180</b><span style="font-size: 12px; color: #5E5E5A">Go to company pool</span></div>
+      <div class="card" style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Duplicates</span><b style="font-size: 28px">45</b><span style="font-size: 12px; color: #5E5E5A">30 already in system · 15 repeated in file</span></div>
+      <div class="card" style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5E5E5A">Rows with errors</span><b style="font-size: 28px">15</b><span style="font-size: 12px; color: #5E5E5A">Not added · download to fix</span></div>
+    </section>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 14px">
+      <div role="tablist" aria-label="Rows" style="display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid #D4D4D0">
+        <button role="tab" aria-selected="false" style="min-height: 40px; padding: 0 14px; border: 0; background: none; font: inherit; font-size: 14px; cursor: pointer">Ready (1,180)</button>
+        <button role="tab" aria-selected="true" style="min-height: 40px; padding: 0 14px; border: 0; border-bottom: 3px solid #1F1F1E; background: none; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer">Duplicates (45)</button>
+        <button role="tab" aria-selected="false" style="min-height: 40px; padding: 0 14px; border: 0; background: none; font: inherit; font-size: 14px; cursor: pointer">Errors (15)</button>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between">
+        <fieldset style="border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 16px; font-size: 14px">
+          <legend style="font-size: 13px; color: #5E5E5A; margin-bottom: 6px">For all duplicates</legend>
+          <label><input type="radio" name="dup" checked> Skip (keep existing lead)</label>
+          <label><input type="radio" name="dup"> Merge (fill empty fields only)</label>
+        </fieldset>
+        <a class="btn" href="#">Download duplicates (.xlsx)</a>
+      </div>
+      <div style="overflow-x: auto">
+        <table>
+          <thead><tr><th scope="col">Row</th><th scope="col">In file</th><th scope="col">Matches</th><th scope="col">Existing lead</th><th scope="col">Owner · status</th><th scope="col">Action</th></tr></thead>
+          <tbody>
+            <tr><td>12</td><td>Karthik R<br><span style="color: #5E5E5A">98XXXXX210</span></td><td>Phone</td><td>Karthik Raj</td><td>Priya K (Team A) · Interested</td><td><select aria-label="Action for row 12" style="min-height: 36px"><option>Skip</option><option>Merge</option></select></td></tr>
+            <tr><td>57</td><td>Sneha P<br><span style="color: #5E5E5A">sneha.p@mail.com</span></td><td>Email</td><td>Sneha Prakash</td><td>Company pool · New</td><td><select aria-label="Action for row 57" style="min-height: 36px"><option>Skip</option><option>Merge</option></select></td></tr>
+            <tr><td>58</td><td>Sneha P<br><span style="color: #5E5E5A">97XXXXX402</span></td><td>Row 57 in this file</td><td>—</td><td>—</td><td><span style="font-size: 13px; color: #5E5E5A">Only row 57 kept</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center">
+      <a class="btn" href="AdminDashboard.dc.html">Cancel</a>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+        <span style="font-size: 13px; color: #5E5E5A">Next: allocate them to teams</span>
+        <a class="btn primary" href="AllocateTeams.dc.html">Add 1,180 leads</a>
+      </div>
+    </footer>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
