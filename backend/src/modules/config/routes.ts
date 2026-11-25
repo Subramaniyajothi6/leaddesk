@@ -190,9 +190,12 @@ configRouter.post('/targets', allow('ADMIN'), async (req, res) => {
 configRouter.get('/audit', allow('ADMIN'), async (req, res) => {
   const q = parse(z.object({ entity: z.string().optional(), entityId: z.string().optional(), actorId: z.coerce.number().optional(), action: z.string().optional(), from: z.string().date().optional(), to: z.string().date().optional(), page: z.coerce.number().int().min(1).default(1), pageSize: z.coerce.number().int().min(1).max(200).default(50) }), req.query)
   const where = {
-    ...(q.entity && { entity: q.entity }), ...(q.entityId && { entityId: q.entityId }), ...(q.actorId && { actorId: q.actorId }), ...(q.action && { action: q.action }),
+    ...(q.entity && { entity: q.entity }), ...(q.entityId && { entityId: q.entityId }), ...(q.actorId && { actorId: q.actorId }), ...(q.action && { action: q.action.includes(',') ? { in: q.action.split(',') } : q.action }), // one action, or a comma-separated group
     ...((q.from || q.to) && { at: { ...(q.from && { gte: new Date(q.from) }), ...(q.to && { lt: new Date(new Date(q.to).getTime() + 86_400_000) }) } }),
   }
   const [rows, total] = await Promise.all([prisma.auditLog.findMany({ where, orderBy: { at: 'desc' }, skip: (q.page - 1) * q.pageSize, take: q.pageSize }), prisma.auditLog.count({ where })])
-  res.json({ rows, total, page: q.page, pageSize: q.pageSize })
+  // Names of the people involved, so the screen can show them without another request.
+  const ids = [...new Set(rows.flatMap((r) => [r.actorId, r.entity === 'user' && r.entityId ? Number(r.entityId) : null]).filter((x): x is number => !!x))]
+  const names = Object.fromEntries((await prisma.user.findMany({ where: { id: { in: ids } }, select: { id: true, name: true } })).map((u) => [u.id, u.name]))
+  res.json({ rows, names, total, page: q.page, pageSize: q.pageSize })
 })

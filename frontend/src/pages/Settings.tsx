@@ -239,11 +239,14 @@ function CustomFields() {
         {q.data?.map((x) => <tr key={x.key}><td className="text-ink font-semibold">{x.label}</td><td className="font-mono text-[12px]">{x.key}</td><td>{x.type}</td><td>{x.required ? 'Yes' : 'No'}</td><td className="text-[12.5px]">{x.options?.join(', ') ?? '—'}</td></tr>)}
         {!q.data?.length && <tr><td colSpan={5} className="text-center text-muted py-4">None yet</td></tr>}
       </Table>
-      <form className="grid gap-3 sm:grid-cols-4 items-end mt-4 pt-4 border-t border-line" onSubmit={(e) => { e.preventDefault(); save.mutate(undefined) }}>
+      <form className="grid gap-3 sm:grid-cols-4 items-start mt-4 pt-4 border-t border-line" onSubmit={(e) => { e.preventDefault(); save.mutate(undefined) }}>
         <Field label="Label"><input className="field h-10" value={f.label} onChange={(e) => setF({ ...f, label: e.target.value })} /></Field>
         <Field label="Key" hint="lower_case, never changes"><input className="field h-10 font-mono" value={key} onChange={(e) => setF({ ...f, key: e.target.value })} /></Field>
         <Field label="Type"><select className="field h-10" value={f.type} onChange={(e) => setF({ ...f, type: e.target.value })}><option value="text">Text</option><option value="number">Number</option><option value="date">Date</option><option value="select">Pick from a list</option></select></Field>
-        {f.type === 'select' ? <Field label="Options" hint="Comma separated"><input className="field h-10" value={f.options} onChange={(e) => setF({ ...f, options: e.target.value })} /></Field> : <label className="flex items-center gap-2 h-10 text-[13.5px]"><input type="checkbox" checked={f.required} onChange={(e) => setF({ ...f, required: e.target.checked })} />Required on upload</label>}
+        {f.type === 'select' ? <Field label="Options" hint="Comma separated"><input className="field h-10" value={f.options} onChange={(e) => setF({ ...f, options: e.target.value })} /></Field> : (
+          // Empty label row so the checkbox lines up with the boxes beside it.
+          <div className="flex flex-col gap-1.5"><span className="label invisible" aria-hidden>Required</span><label className="flex items-center gap-2 h-10 text-[13.5px]"><input type="checkbox" checked={f.required} onChange={(e) => setF({ ...f, required: e.target.checked })} />Required on upload</label></div>
+        )}
         <button className="btn-ghost sm:col-span-4 justify-self-end" disabled={!f.label.trim() || save.isPending}>Add field</button>
       </form>
     </Card>

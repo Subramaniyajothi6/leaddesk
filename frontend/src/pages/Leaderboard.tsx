@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { api } from '../lib/api'
 import { useAuth } from '../lib/auth'
 import { pct, int } from '../lib/format'
-import { Card, PageHeader, Segmented, Spinner, Empty, Avatar } from '../components/ui'
+import { Card, PageHeader, Segmented, Spinner, Empty, Avatar, ErrorBox } from '../components/ui'
 
 interface Row { rank: number; userId: number; name: string; team: string | null; conversions: number; conversionPct: number | null; counted: number; calls: number; me: boolean }
 
@@ -24,7 +24,7 @@ export function Leaderboard() {
         <Segmented label="Rank by" value={by} onChange={setBy} options={[{ value: 'conversions', label: 'Conversions' }, { value: 'conversion_pct', label: 'Conv. %' }, { value: 'calls', label: 'Calls' }]} />
         <Segmented label="Period" value={period} onChange={setPeriod} options={[{ value: 'today', label: 'Today' }, { value: 'week', label: 'Week' }, { value: 'month', label: 'Month' }]} />
       </PageHeader>
-      {q.isLoading ? <Spinner /> : !rows.length ? <Card><Empty icon="trophy" title="No results yet">The board fills up as leads are worked.</Empty></Card> : (
+      {q.error ? <ErrorBox error={q.error} /> : q.isLoading ? <Spinner /> : !rows.length ? <Card><Empty icon="trophy" title="No results yet">The board fills up as leads are worked.</Empty></Card> : (
         <>
           <div className="grid gap-3 sm:grid-cols-3 mb-5">
             {rows.slice(0, 3).map((r) => (

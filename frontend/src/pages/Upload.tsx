@@ -8,6 +8,7 @@ import { useAction, download } from '../lib/hooks'
 import { int, ago } from '../lib/format'
 import { Card, PageHeader, Table, Field, Badge, useToast } from '../components/ui'
 import { Icon } from '../components/Icon'
+import { AddLead } from '../components/AddLead'
 
 interface Preview { fileName: string; rowCount: number; headers: string[]; sample: Record<string, string>[]; suggestedMapping: Record<string, string> }
 interface Result { batchId: number; totalRows: number; added: number; duplicates: number; rejected: number; merged: number; summary: string }
@@ -46,7 +47,9 @@ export function Upload() {
 
   return (
     <div className="fade-in">
-      <PageHeader title="Upload leads" sub="Excel (.xlsx) or CSV. Nothing is saved until you confirm in step 2." />
+      <PageHeader title="Upload leads" sub="Excel (.xlsx) or CSV. Nothing is saved until you confirm in step 2.">
+        <AddLead className="btn-ghost" />
+      </PageHeader>
       <ol className="flex flex-wrap gap-2 mb-5" aria-label="Steps">
         {STEPS.map((s, i) => (
           <li key={s} className={clsx('flex items-center gap-2 h-9 px-3 rounded-full text-[13px] font-semibold border', i === step ? 'bg-ink text-white border-ink' : i < step ? 'bg-ok-soft text-ok border-ok/30' : 'border-line text-muted')}>

@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient, keepPreviousData } from '@tansta
 import clsx from 'clsx'
 import { api, post, ApiError } from '../lib/api'
 import { useAuth } from '../lib/auth'
-import { useStatuses, useSources } from '../lib/refdata'
+import { useStatuses } from '../lib/refdata'
 import { useAction } from '../lib/hooks'
 import { ago, int } from '../lib/format'
 import type { LeadRow, Page } from '../lib/types'
@@ -12,6 +12,7 @@ import { PageHeader, Spinner, ErrorBox, Empty, useToast, Avatar } from '../compo
 import { StatusBadge } from '../components/StatusBadge'
 import { Modal } from '../components/Modal'
 import { Icon } from '../components/Icon'
+import { AddLead } from '../components/AddLead'
 
 type View = { id: string | number; name: string; filters: Record<string, unknown> }
 const SORTS = [{ v: 'score', l: 'Best first (score)' }, { v: 'followup', l: 'Next follow-up' }, { v: 'activity', l: 'Last activity' }, { v: 'created', l: 'Newest' }, { v: 'name', l: 'Name A–Z' }]
@@ -255,31 +256,6 @@ export function AssignModal({ open, onClose, leadIds, onDone }: { open: boolean;
         <button className="btn-primary self-end" disabled={!userId || m.isPending || (!!needReason && !reason.trim())}>{needReason ? 'Assign over the max' : 'Assign'}</button>
       </form>
     </Modal>
-  )
-}
-
-/** Admin adds one lead by hand: same checks as an upload (valid phone, duplicates), goes to the company pool. */
-function AddLead() {
-  const [open, setOpen] = useState(false)
-  const sources = useSources()
-  const [f, setF] = useState({ name: '', phone: '', email: '', source: '' })
-  const nav = useNavigate()
-  const m = useAction(() => post<{ id: number }>('/leads', { name: f.name, phone: f.phone, ...(f.email && { email: f.email }), ...(f.source && { source: f.source }) }), {
-    success: 'Lead added to the company pool', invalidate: ['leads', 'dashboard'], onDone: (r) => { setOpen(false); setF({ name: '', phone: '', email: '', source: '' }); nav(`/leads/${r.id}`) },
-  })
-  return (
-    <>
-      <button className="btn-primary" onClick={() => setOpen(true)}>Add lead</button>
-      <Modal open={open} onClose={() => setOpen(false)} title="Add a lead">
-        <form className="grid gap-4 sm:grid-cols-2" onSubmit={(e) => { e.preventDefault(); m.mutate(undefined) }}>
-          <label className="flex flex-col gap-1.5"><span className="label">Name</span><input className="field" autoFocus value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} /></label>
-          <label className="flex flex-col gap-1.5"><span className="label">Phone</span><input className="field" inputMode="tel" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} placeholder="98765 43210" /></label>
-          <label className="flex flex-col gap-1.5"><span className="label">Email (optional)</span><input className="field" type="email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /></label>
-          <label className="flex flex-col gap-1.5"><span className="label">Source</span><select className="field" value={f.source} onChange={(e) => setF({ ...f, source: e.target.value })}><option value="">None</option>{sources.data?.filter((x) => x.active).map((x) => <option key={x.id}>{x.name}</option>)}</select></label>
-          <div className="sm:col-span-2 flex justify-end"><button className="btn-primary" disabled={!f.name.trim() || !f.phone.trim() || m.isPending}>Add lead</button></div>
-        </form>
-      </Modal>
-    </>
   )
 }
 
