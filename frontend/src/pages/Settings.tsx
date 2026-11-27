@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom'
 import clsx from 'clsx'
 import { api, post } from '../lib/api'
 import { useAction, today } from '../lib/hooks'
@@ -66,7 +67,8 @@ const get = (o: Record<string, unknown>, p: string) => p.split('.').reduce<unkno
 function set(o: Record<string, unknown>, p: string, v: unknown) { const out = structuredClone(o); const ks = p.split('.'); let c = out; for (const k of ks.slice(0, -1)) c = (c[k] ??= {}) as Record<string, unknown>; c[ks.at(-1)!] = v; return out }
 
 export function SettingsPage() {
-  const [sec, setSec] = useState('company')
+  const [sp] = useSearchParams()
+  const [sec, setSec] = useState(() => { const want = sp.get('sec'); return want && SECTIONS.some(([k]) => k === want) ? want : 'company' }) // ?sec=leads opens that section
   const s = useQuery({ queryKey: ['settings'], queryFn: () => api<Settings>('/settings') })
   return (
     <div className="fade-in">

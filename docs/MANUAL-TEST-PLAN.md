@@ -46,11 +46,11 @@ cd "D:/Adz4/New folder/frontend" && npm run dev     # App  → http://localhost:
 
 Do it on a weekday, in order. Normal window = Admin, then Team Lead. Private window = BDE. File: `docs/test-data/workflow-leads.csv` (12 new leads, numbers 9500011001–012; for a second run change the last digits).
 
-- [ ] **W1 BDEs punch in.** Private window: `DEMO-B01` → Today → Punch in; sign out, same for `DEMO-B02`; sign back in as `DEMO-B01`. Expected: "Punched in at hh:mm" (Late after 09:40).
-- [ ] **W2 Upload.** Normal window: `DEMO-ADM` → Upload → the file → Skip duplicates → Add. Expected: "12 rows: 12 added, 0 duplicates, 0 rejected".
+- [x] **W1 BDEs punch in.** Private window: `DEMO-B01` → Today → Punch in; sign out, same for `DEMO-B02`; sign back in as `DEMO-B01`. Expected: "Punched in at hh:mm" (Late after 09:40). _25 Nov: passed, Priya 14:30 and Arun 15:27, both Late._
+- [x] **W2 Upload.** Normal window: `DEMO-ADM` → first Settings → Leads → Sources: add `Facebook` if it is not there (the file uses it; an unknown source is rejected) → Upload → the file → Skip duplicates → Check 12 rows → popup "All rows look good", 12 ready → Add 12 rows. Expected: "12 rows: 12 added, 0 duplicates, 0 rejected". _25 Nov: first try 10 added, 2 rejected: Source "Facebook" not in the list (correct; the file had a source the company had not added). Added Facebook, 27 Nov: added Facebook, uploaded again: 2 added, 10 duplicates, 0 rejected (passed)._
 - [ ] **W3 To teams.** "Give these leads to teams" → Equal, all 3 teams → Preview 4/4/4 → Allocate. Expected: "12 leads given to 3 team(s)".
 - [ ] **W4 To BDEs.** Sign out; `DEMO-TL1` → Team pool → Automatic → Smart. Expected: Priya and Arun get leads with a "Why"; Meena and Kavin are under Skipped (not punched in). Note: the pool also holds older demo leads, so more than our 4 may be given; that's fine. Give. Expected: toast; pool count drops; Priya's bell goes up without refresh.
-- [ ] **W5 BDE sees them.** Private window, Priya → My leads → search `95000110`. Expected: our new leads that went to Priya, each with a first-call follow-up. (If none went to her, as `DEMO-TL1` use Leads → tick one → Assign to Priya.)
+- [ ] **W5 BDE sees them.** Private window, Priya → My leads → Sort: Newest (or search a name from the file, e.g. Anand, or the last 4 digits like 1001; search matches the end of a number, not the start). Expected: our new leads that went to Priya, each with a first-call follow-up. (If none went to her, as `DEMO-TL1` use Leads → tick one → Assign to Priya.)
 - [ ] **W6 Call, no answer.** Call on one new lead (e.g. Anand Raj) → End call → No answer → Save. Expected: still New; History "Call: No answer".
 - [ ] **W7 Call, answered.** Call again → Answered → Contacted → remarks → follow-up Tomorrow 11:00 → Save. Expected: status Contacted; "Next follow-up" card on top.
 - [ ] **W8 Follow-ups.** Priya → Follow-ups. Expected: Anand Raj under Upcoming tomorrow 11:00; Week view shows it.
@@ -150,6 +150,7 @@ Same In File,9123456700,,Website
   - added: Asha, Ravi
   - duplicates: Duplicate Person already exists; Same In File repeats Asha's number
   - rejected: bad phone, missing name
+- [ ] **6.2b Check before adding.** Steps: Upload → a file with problems (e.g. `test-leads.csv`, or a row with source `Facebook` when that source is not in the list) → Check N rows. Expected: popup "Check before adding" with Ready / Duplicates / Errors, the problems grouped ("Source "Facebook" is not in the list of sources · 2 rows"), and a table of the bad rows (row, name, phone, problem). Nothing is in Recent uploads yet. For a source problem: "Add it in Settings → Leads" opens that page in a new tab; add the source, come back, **Check again** → those rows are now ready. **Go back and fix** saves nothing; **Add N rows** adds only the good rows. A clean file shows "All rows look good".
 - [ ] **6.3 Error file.** Steps: Download errors / Download duplicates. Expected: CSV files with the row number and the problem, e.g. `Phone "12345" is not a valid number`, `Name is missing`.
 - [ ] **6.4 Same file again.** Steps: upload the same file again. Expected: 0 added (all duplicates or errors).
 - [ ] **6.5 Merge.** Steps: change Ravi's email in the file to `ravi@example.com`, upload with **Merge**. Expected: Ravi is not created twice; his lead now has that email and a note "Merged from upload …".

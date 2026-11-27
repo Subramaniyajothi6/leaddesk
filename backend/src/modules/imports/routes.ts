@@ -46,37 +46,23 @@ function mapRow(row: Record<string, string>, mapping: Record<string, string>, de
   return { name: row[mapping.name], phone: row[mapping.phone], email: mapping.email ? row[mapping.email] : undefined, source: (mapping.source ? row[mapping.source] : '') || defaultSource, custom }
 }
 
-/**
- * Step 2: validate every row, stop duplicates, add the good rows to the company pool (§5.2).
- * dupAction: SKIP (default) or MERGE (fill empty fields of the existing lead, recorded in its history).
- */
-importsRouter.post('/', upload.single('file'), async (req, res) => {
-  const f = await fileFrom(req)
-  const body = parse(z.object({
-    mapping: z.string().transform((s, ctx) => { try { return JSON.parse(s) } catch { ctx.addIssue({ code: 'custom', message: 'mapping must be JSON' }); return z.NEVER } }).pipe(mappingSchema),
-    dupAction: z.enum(['SKIP', 'MERGE']).default('SKIP'),
-    defaultSource: z.string().optional(),
-  }), req.body)
-  const sheet = await readSheet(f.buffer, f.originalname)
-  for (const h of Object.values(body.mapping)) if (!sheet.headers.includes(h)) throw badRequest(`Column "${h}" is not in the file`)
-  if (!sheet.rows.length) throw badRequest('The file has no data rows')
-  if (sheet.rows.length > 20_000) throw badRequest('Upload at most 20,000 rows at a time')
+type Good = { row: number; lead: NonNullable<Extract<ReturnType<typeof validateLead>, { ok: true }>['lead']> }
+type Reject = { rowNumber: number; raw: Record<string, string>; reason: string; kind: 'ERROR' | 'DUPLICATE'; existingLeadId?: number }
 
+/** Validate every row and find duplicates (in the file and in the database). Reads only, never writes. */
+async function checkRows(rows: Record<string, string>[], mapping: Record<string, string>, defaultSource: string | undefined, dupAction: 'SKIP' | 'MERGE') {
   const s = await getSettings()
-  const [fields, sources, rules, statusNew] = await Promise.all([prisma.customFieldDef.findMany(), prisma.leadSource.findMany(), activeRules(), newStatusId()])
-  const actor = me(req).id
-
-  type Good = { row: number; lead: NonNullable<Extract<ReturnType<typeof validateLead>, { ok: true }>['lead']> }
+  const [fields, sources] = await Promise.all([prisma.customFieldDef.findMany(), prisma.leadSource.findMany()])
   const good: Good[] = []
-  const rejects: { rowNumber: number; raw: object; reason: string; kind: string; existingLeadId?: number }[] = []
+  const rejects: Reject[] = []
   const seenPhone = new Map<string, number>()
   const seenEmail = new Map<string, number>()
+  const rule = s.leads.duplicateRule
 
-  sheet.rows.forEach((row, i) => {
+  rows.forEach((row, i) => {
     const rowNumber = i + 2 // header is row 1
-    const v = validateLead(mapRow(row, body.mapping, body.defaultSource), { country: s.company.country, fields, sources })
+    const v = validateLead(mapRow(row, mapping, defaultSource), { country: s.company.country, fields, sources })
     if (!v.ok) return rejects.push({ rowNumber, raw: row, reason: v.errors.join('; '), kind: 'ERROR' })
-    const rule = s.leads.duplicateRule
     const samePhone = rule !== 'EMAIL' ? seenPhone.get(v.lead.phoneE164) : undefined
     const sameEmail = rule !== 'PHONE' && v.lead.email ? seenEmail.get(v.lead.email) : undefined
     if (samePhone || sameEmail) return rejects.push({ rowNumber, raw: row, reason: `Same ${samePhone ? 'phone' : 'email'} as row ${samePhone ?? sameEmail} in this file`, kind: 'DUPLICATE' })
@@ -85,15 +71,70 @@ importsRouter.post('/', upload.single('file'), async (req, res) => {
     good.push({ row: rowNumber, lead: v.lead })
   })
 
-  const dupes = await findDuplicates(prisma, good.map((g) => ({ phone: g.lead.phoneE164, email: g.lead.email })), s.leads.duplicateRule)
+  const dupes = await findDuplicates(prisma, good.map((g) => ({ phone: g.lead.phoneE164, email: g.lead.email })), rule)
   const fresh: Good[] = []
   const merges: (Good & { existingId: number })[] = []
   good.forEach((g, i) => {
     const ex = dupes.get(i)
     if (!ex) return fresh.push(g)
-    rejects.push({ rowNumber: g.row, raw: sheet.rows[g.row - 2], reason: body.dupAction === 'MERGE' ? 'Already exists: empty fields merged into the existing lead' : 'Already exists (skipped)', kind: 'DUPLICATE', existingLeadId: ex })
-    if (body.dupAction === 'MERGE') merges.push({ ...g, existingId: ex })
+    rejects.push({ rowNumber: g.row, raw: rows[g.row - 2], reason: dupAction === 'MERGE' ? 'Already exists: empty fields merged into the existing lead' : 'Already exists (skipped)', kind: 'DUPLICATE', existingLeadId: ex })
+    if (dupAction === 'MERGE') merges.push({ ...g, existingId: ex })
   })
+  rejects.sort((a, b) => a.rowNumber - b.rowNumber)
+  return { fresh, merges, rejects }
+}
+
+const importBody = z.object({
+  mapping: z.string().transform((s, ctx) => { try { return JSON.parse(s) } catch { ctx.addIssue({ code: 'custom', message: 'mapping must be JSON' }); return z.NEVER } }).pipe(mappingSchema),
+  dupAction: z.enum(['SKIP', 'MERGE']).default('SKIP'),
+  defaultSource: z.string().optional(),
+})
+
+async function readForImport(req: import('express').Request) {
+  const f = await fileFrom(req)
+  const body = parse(importBody, req.body)
+  const sheet = await readSheet(f.buffer, f.originalname)
+  for (const h of Object.values(body.mapping)) if (!sheet.headers.includes(h)) throw badRequest(`Column "${h}" is not in the file`)
+  if (!sheet.rows.length) throw badRequest('The file has no data rows')
+  if (sheet.rows.length > 20_000) throw badRequest('Upload at most 20,000 rows at a time')
+  return { f, body, sheet }
+}
+
+/**
+ * Step 2a: check every row exactly as the real upload would, and say what would happen. Nothing is saved.
+ * Problems are grouped by reason, and the first 200 problem rows are listed.
+ */
+importsRouter.post('/check', upload.single('file'), async (req, res) => {
+  const { body, sheet } = await readForImport(req)
+  const { fresh, merges, rejects } = await checkRows(sheet.rows, body.mapping, body.defaultSource, body.dupAction)
+  const nameCol = body.mapping.name, phoneCol = body.mapping.phone
+  const groups = new Map<string, { reason: string; kind: string; count: number }>()
+  for (const r of rejects) {
+    // "Same phone as row 4 in this file" → one group for all in-file repeats
+    const reason = r.reason.replace(/ as row \d+ in this file$/, ' as another row in this file')
+    for (const part of r.kind === 'ERROR' ? reason.split('; ') : [reason]) {
+      const g = groups.get(part) ?? { reason: part, kind: r.kind, count: 0 }
+      g.count++
+      groups.set(part, g)
+    }
+  }
+  res.json({
+    totalRows: sheet.rows.length, ready: fresh.length, merged: merges.length,
+    duplicates: rejects.filter((r) => r.kind === 'DUPLICATE').length, errors: rejects.filter((r) => r.kind === 'ERROR').length,
+    groups: [...groups.values()].sort((a, b) => (a.kind === b.kind ? b.count - a.count : a.kind === 'ERROR' ? -1 : 1)),
+    rows: rejects.slice(0, 200).map((r) => ({ rowNumber: r.rowNumber, kind: r.kind, reason: r.reason, name: r.raw[nameCol] ?? '', phone: r.raw[phoneCol] ?? '', existingLeadId: r.existingLeadId ?? null })),
+  })
+})
+
+/**
+ * Step 2b: validate every row, stop duplicates, add the good rows to the company pool (§5.2).
+ * dupAction: SKIP (default) or MERGE (fill empty fields of the existing lead, recorded in its history).
+ */
+importsRouter.post('/', upload.single('file'), async (req, res) => {
+  const { f, body, sheet } = await readForImport(req)
+  const [rules, statusNew] = await Promise.all([activeRules(), newStatusId()])
+  const actor = me(req).id
+  const { fresh, merges, rejects } = await checkRows(sheet.rows, body.mapping, body.defaultSource, body.dupAction)
 
   const result = await tx(async (t) => {
     const batch = await t.importBatch.create({

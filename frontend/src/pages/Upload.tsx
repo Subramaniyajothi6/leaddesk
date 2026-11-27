@@ -9,9 +9,15 @@ import { int, ago } from '../lib/format'
 import { Card, PageHeader, Table, Field, Badge, useToast } from '../components/ui'
 import { Icon } from '../components/Icon'
 import { AddLead } from '../components/AddLead'
+import { Modal } from '../components/Modal'
 
 interface Preview { fileName: string; rowCount: number; headers: string[]; sample: Record<string, string>[]; suggestedMapping: Record<string, string> }
 interface Result { batchId: number; totalRows: number; added: number; duplicates: number; rejected: number; merged: number; summary: string }
+interface Check {
+  totalRows: number; ready: number; merged: number; duplicates: number; errors: number
+  groups: { reason: string; kind: 'ERROR' | 'DUPLICATE'; count: number }[]
+  rows: { rowNumber: number; kind: 'ERROR' | 'DUPLICATE'; reason: string; name: string; phone: string; existingLeadId: number | null }[]
+}
 interface Batch { id: number; fileName: string; totalRows: number; accepted: number; duplicates: number; rejected: number; createdAt: string }
 
 const STEPS = ['Choose file', 'Match columns', 'Check results']
@@ -32,11 +38,17 @@ export function Upload() {
   const read = useAction(async (f: File) => { const fd = new FormData(); fd.append('file', f); return api<Preview>('/imports/preview', { method: 'POST', body: fd }) }, {
     onDone: (p) => { setPreview(p); setMapping(p.suggestedMapping); setStep(1) },
   })
-  const run = useAction(async () => {
+  const form = () => {
     const fd = new FormData(); fd.append('file', file!); fd.append('mapping', JSON.stringify(Object.fromEntries(Object.entries(mapping).filter(([, v]) => v)))); fd.append('dupAction', dupAction)
     if (defaultSource) fd.append('defaultSource', defaultSource)
-    return api<Result>('/imports', { method: 'POST', body: fd })
-  }, { invalidate: ['imports', 'leads', 'dashboard'], onDone: (r) => { setResult(r); setStep(2) } })
+    return fd
+  }
+  // First a check that saves nothing (popup with the problems), then the real upload.
+  const [checked, setChecked] = useState<Check | null>(null)
+  const check = useAction(() => api<Check>('/imports/check', { method: 'POST', body: form() }), { onDone: setChecked })
+  const run = useAction(() => api<Result>('/imports', { method: 'POST', body: form() }), {
+    invalidate: ['imports', 'leads', 'dashboard'], onDone: (r) => { setChecked(null); setResult(r); setStep(2) },
+  })
 
   const pick = (f: File | undefined) => { if (!f) return; setFile(f); setResult(null); read.mutate(f) }
   const targets = [
@@ -47,7 +59,7 @@ export function Upload() {
 
   return (
     <div className="fade-in">
-      <PageHeader title="Upload leads" sub="Excel (.xlsx) or CSV. Nothing is saved until you confirm in step 2.">
+      <PageHeader title="Upload leads" sub="Excel (.xlsx) or CSV. Every row is checked first; nothing is saved until you confirm.">
         <AddLead className="btn-ghost" />
       </PageHeader>
       <ol className="flex flex-wrap gap-2 mb-5" aria-label="Steps">
@@ -73,7 +85,7 @@ export function Upload() {
       {step === 1 && preview && (
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
           <Card title="Match your columns" note={`${preview.fileName} · ${int(preview.rowCount)} rows`}>
-            <form className="flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); run.mutate(undefined) }}>
+            <form className="flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); check.mutate(undefined) }}>
               {targets.map((t) => (
                 <Field key={t.key} label={`${t.label}${t.required ? ' (required)' : ''}`}>
                   <select className="field" value={mapping[t.key] ?? ''} onChange={(e) => setMapping({ ...mapping, [t.key]: e.target.value })}>
@@ -97,7 +109,7 @@ export function Upload() {
               </fieldset>
               <div className="flex gap-2 justify-end">
                 <button type="button" className="btn-ghost" onClick={restart}>Back</button>
-                <button className="btn-primary" disabled={!mapping.name || !mapping.phone || run.isPending}>{run.isPending ? 'Checking every row…' : `Add ${int(preview.rowCount)} rows`}</button>
+                <button className="btn-primary" disabled={!mapping.name || !mapping.phone || check.isPending}>{check.isPending ? 'Checking every row…' : `Check ${int(preview.rowCount)} rows`}</button>
               </div>
             </form>
           </Card>
@@ -125,6 +137,7 @@ export function Upload() {
           </div>
         </Card>
       )}
+      <CheckDialog c={checked} onClose={() => setChecked(null)} onRecheck={() => check.mutate(undefined)} rechecking={check.isPending} onAdd={() => run.mutate(undefined)} adding={run.isPending} />
       {read.error && step === 0 && <p role="alert" className="mt-3 text-bad text-[13.5px]">{(read.error as ApiError).message}</p>}
 
       <Card title="Recent uploads" className="mt-5">
@@ -140,5 +153,83 @@ export function Upload() {
         </Table>
       </Card>
     </div>
+  )
+}
+
+/** Result of the check before saving: what will be added, and every problem, so the file can be fixed first. */
+function CheckDialog({ c, onClose, onRecheck, rechecking, onAdd, adding }: { c: Check | null; onClose: () => void; onRecheck: () => void; rechecking: boolean; onAdd: () => void; adding: boolean }) {
+  if (!c) return null
+  const problems = c.errors + c.duplicates
+  const sourceProblem = c.groups.some((g) => g.reason.startsWith('Source "'))
+  const nothing = c.ready === 0 && c.merged === 0
+  return (
+    <Modal open onClose={onClose} title={problems ? 'Check before adding' : 'All rows look good'} wide>
+      <div className="flex flex-col gap-4">
+        <div className="grid gap-3 grid-cols-3">
+          <div className="rounded-xl bg-ok-soft p-3"><p className="text-[12.5px] text-ok font-semibold">Ready to add</p><p className="display num text-[26px] text-ink">{int(c.ready)}</p></div>
+          <div className="rounded-xl bg-warn-soft p-3"><p className="text-[12.5px] text-warn font-semibold">Duplicates{c.merged ? ` (${c.merged} to merge)` : ''}</p><p className="display num text-[26px] text-ink">{int(c.duplicates)}</p></div>
+          <div className="rounded-xl bg-bad-soft p-3"><p className="text-[12.5px] text-bad font-semibold">Rows with errors</p><p className="display num text-[26px] text-ink">{int(c.errors)}</p></div>
+        </div>
+
+        {problems > 0 && (
+          <>
+            {sourceProblem && (
+              <p className="rounded-lg bg-soft px-3 py-2 text-[13px]">
+                A source in the file is not in your list. <a className="font-semibold text-accent-ink underline" href="/settings?sec=leads" target="_blank" rel="noreferrer">Add it in Settings → Leads</a> (opens a new tab), then come back and click <b>Check again</b>.
+              </p>
+            )}
+            {/* One list: each problem once, with its rows underneath. Open when there are only a few. */}
+            <div className="rounded-lg border border-line divide-y divide-line" aria-label="Problems found">
+              {c.groups.map((g) => {
+                const rows = c.rows.filter((r) => r.reason.replace(/ as row \d+ in this file$/, ' as another row in this file').split('; ').includes(g.reason))
+                return (
+                  <details key={g.reason} open={problems <= 20} className="group">
+                    <summary className="flex items-center justify-between gap-3 px-3 py-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden text-[13.5px] font-medium hover:bg-soft">
+                      <span className={clsx('flex items-center gap-2', g.kind === 'ERROR' ? 'text-bad' : 'text-warn')}>
+                        <span className="text-faint transition-transform group-open:rotate-90" aria-hidden>›</span>{g.reason}
+                      </span>
+                      <span className="num text-muted whitespace-nowrap">{int(g.count)} row{g.count === 1 ? '' : 's'}</span>
+                    </summary>
+                    {/* Same fixed columns in every group, so names, phones and links line up down the whole list. */}
+                    <ul className="pb-1.5 text-[13px]">
+                      {rows.map((r) => (
+                        <li key={r.rowNumber} className="grid grid-cols-[4.5rem_minmax(0,1fr)_7.5rem] sm:grid-cols-[4.5rem_minmax(0,1fr)_7.5rem_9.5rem] items-center gap-x-3 pl-8 pr-3 py-1">
+                          <span className="num text-muted whitespace-nowrap">Row {r.rowNumber}</span>
+                          <span className="truncate">{r.name || <span className="text-faint">(no name)</span>}</span>
+                          <span className="num whitespace-nowrap">{r.phone || <span className="text-faint">(no phone)</span>}</span>
+                          <span className="max-sm:col-start-2 max-sm:col-span-2 sm:text-right text-muted whitespace-nowrap">
+                            {r.reason.match(/as (row \d+) in this file$/)?.[1]?.replace('row', 'same as row')}
+                            {r.existingLeadId && <a className="underline text-accent-ink" href={`/leads/${r.existingLeadId}`} target="_blank" rel="noreferrer">open existing lead</a>}
+                          </span>
+                        </li>
+                      ))}
+                      {rows.length < g.count && <li className="pl-8 py-1 text-[12.5px] text-faint">…and {int(g.count - rows.length)} more in the error file</li>}
+                    </ul>
+                  </details>
+                )
+              })}
+            </div>
+          </>
+        )}
+
+        {/* Footer stays at the bottom of the popup while the list scrolls with the popup (one scroll only). */}
+        <div className="sticky bottom-0 -mx-5 -mb-5 px-5 pt-3 pb-5 bg-surface border-t border-line flex flex-col gap-3">
+        <p className="text-[13px] text-muted">
+          {nothing ? 'Nothing new to add from this file.'
+            : problems ? <>Nothing is saved yet. Fix the file and check again, or add the {int(c.ready)} good row{c.ready === 1 ? '' : 's'} now: the others are left out and listed in the error file.</>
+            : <>Nothing is saved yet. {int(c.ready)} new lead{c.ready === 1 ? '' : 's'} will go to the company pool.</>}
+        </p>
+        <div className="flex flex-wrap justify-end gap-2">
+          <button className="btn-ghost" onClick={onClose}>{problems ? 'Go back and fix' : 'Back'}</button>
+          {problems > 0 && <button className="btn-ghost" onClick={onRecheck} disabled={rechecking}>{rechecking ? 'Checking…' : 'Check again'}</button>}
+          {!nothing && (
+            <button className="btn-primary" onClick={onAdd} disabled={adding}>
+              {adding ? 'Adding…' : `Add ${int(c.ready)} row${c.ready === 1 ? '' : 's'}${c.merged ? ` and merge ${int(c.merged)}` : ''}`}
+            </button>
+          )}
+        </div>
+        </div>
+      </div>
+    </Modal>
   )
 }

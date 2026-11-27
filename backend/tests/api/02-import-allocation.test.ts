@@ -43,6 +43,34 @@ describe('upload (§5.2) — 1,000-row file', () => {
     expect(await prisma.lead.count({ where: { batchId: r.body.batchId } })).toBe(955)
   }, 300_000)
 
+  it('check before saving: same verdicts as the upload, grouped, and nothing is written', async () => {
+    const st = await prisma.status.findUniqueOrThrow({ where: { key: 'NEW' } })
+    await prisma.lead.create({ data: { name: 'Already here', phoneE164: '+919600000001', statusId: st.id } })
+    const file = csv([['Name', 'Phone', 'Source'],
+      ['Good One', '9600000010', 'Website'], ['Good Two', '9600000011', 'Referral'],
+      ['Fb One', '9600000012', 'Facebook'], ['Fb Two', '9600000013', 'Facebook'],
+      ['Bad Phone', '123', 'Website'], ['Old Lead', '9600000001', 'Website'], ['Again', '9600000010', 'Website']])
+    const mapping = JSON.stringify({ name: 'Name', phone: 'Phone', source: 'Source' })
+    const [leads, batches, audits] = await Promise.all([prisma.lead.count(), prisma.importBatch.count(), prisma.auditLog.count()])
+
+    const r = await as(adminT).post('/api/imports/check').attach('file', file, 'check.csv').field('mapping', mapping)
+    expect(r.status).toBe(200)
+    expect(r.body).toMatchObject({ totalRows: 7, ready: 2, duplicates: 2, errors: 3 })
+    expect(r.body.groups).toEqual([
+      { reason: 'Source "Facebook" is not in the list of sources', kind: 'ERROR', count: 2 },
+      { reason: 'Phone "123" is not a valid number', kind: 'ERROR', count: 1 },
+      expect.objectContaining({ kind: 'DUPLICATE', count: 1 }), expect.objectContaining({ kind: 'DUPLICATE', count: 1 }),
+    ])
+    expect(r.body.rows.map((x: { rowNumber: number }) => x.rowNumber)).toEqual([4, 5, 6, 7, 8])
+    expect(r.body.rows.find((x: { rowNumber: number }) => x.rowNumber === 7)).toMatchObject({ name: 'Old Lead', kind: 'DUPLICATE', existingLeadId: expect.any(Number) })
+    expect([await prisma.lead.count(), await prisma.importBatch.count(), await prisma.auditLog.count()]).toEqual([leads, batches, audits])
+
+    // The real upload then gives the same counts.
+    const u = await as(adminT).post('/api/imports').attach('file', file, 'check.csv').field('mapping', mapping)
+    expect(u.body).toMatchObject({ added: 2, duplicates: 2, rejected: 3 })
+    expect(await as(tlCT).post('/api/imports/check').attach('file', file, 'check.csv').field('mapping', mapping).then((x) => x.status)).toBe(403)
+  })
+
   it('refuses a file that is not CSV or Excel by its content', async () => {
     const r = await as(adminT).post('/api/imports/preview').attach('file', Buffer.from([0, 1, 2, 3, 0, 0]), 'fake.csv')
     expect(r.status).toBe(400)
